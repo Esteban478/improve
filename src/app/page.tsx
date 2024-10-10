@@ -1,20 +1,27 @@
-import Link from 'next/link'
-import dynamic from 'next/dynamic'
+import { Track, Critique } from "@prisma/client";
+import TrackDisplay from "@/src/components/TrackDisplay";
 
-const AuthButton = dynamic(() => import('../components/AuthButton'), { ssr: false })
+async function getTracks() {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/tracks`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch tracks");
+  }
+  return res.json();
+}
 
-export default function Home() {
+export default async function Home() {
+  const tracks: (Track & { user: { name: string | null; image: string | null; email: string | null }; critiques: Critique[] })[] = await getTracks();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">Welcome to Improve</h1>
-      <AuthButton />
-      <nav>
-        <ul>
-          <li><Link href="/tracks">View Tracks</Link></li>
-          <li><Link href="/submit">Submit Track</Link></li>
-          <li><Link href="/protected">Protected Page</Link></li>
-        </ul>
-      </nav>
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Latest Tracks</h1>
+      <div className="space-y-8">
+        {tracks.map((track) => (
+          <TrackDisplay key={track.id} track={track} />
+        ))}
+      </div>
     </main>
-  )
+  );
 }

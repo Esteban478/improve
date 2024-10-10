@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -9,18 +9,18 @@ generator client {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -36,9 +36,9 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   password      String?
   image         String?
@@ -46,7 +46,7 @@ model User {
   sessions      Session[]
   tracks        Track[]
   critiques     Critique[]
-  coins         Int       @default(0)
+  coins         Int        @default(0)
 }
 
 model VerificationToken {
@@ -58,13 +58,16 @@ model VerificationToken {
 }
 
 model Track {
-  id        String    @id @default(cuid())
-  title     String
-  url       String
-  userId    String
-  user      User      @relation(fields: [userId], references: [id])
-  critiques Critique[]
-  createdAt DateTime  @default(now())
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  genre       String?
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  critiques   Critique[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Critique {
