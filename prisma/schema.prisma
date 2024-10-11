@@ -47,6 +47,7 @@ model User {
   tracks        Track[]
   critiques     Critique[]
   coins         Int        @default(0)
+  role          String?
 }
 
 model VerificationToken {
@@ -71,11 +72,22 @@ model Track {
 }
 
 model Critique {
-  id        String   @id @default(cuid())
-  content   String
-  trackId   String
-  track     Track    @relation(fields: [trackId], references: [id])
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  id                String   @id @default(cuid())
+  trackId           String
+  userId            String
+  mixingQuality     Int? // 1-10 or null for "Not sure"
+  tonalBalance      Int? // 1-10 or null for "Not sure"
+  masteringLoudness Int? // 1-10 or null for "Not sure"
+  soundDesign       Int? // 1-10 or null for "Not sure"
+  arrangement       Int? // 1-10 or null for "Not sure"
+  technicalSummary  String?
+  emotionalResponse String
+  imagery           String
+  standoutElements  String
+  genreFit          String
+  overallImpression String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  track             Track    @relation(fields: [trackId], references: [id])
+  user              User     @relation(fields: [userId], references: [id])
 }

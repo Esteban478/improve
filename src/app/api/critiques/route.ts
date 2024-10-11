@@ -10,10 +10,23 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { trackId, content } = await request.json();
+    const {
+      trackId,
+      mixingQuality,
+      tonalBalance,
+      masteringLoudness,
+      soundDesign,
+      arrangement,
+      technicalSummary,
+      emotionalResponse,
+      imagery,
+      standoutElements,
+      genreFit,
+      overallImpression
+    } = await request.json();
 
-    if (!trackId || !content) {
-      return NextResponse.json({ error: "Track ID and content are required" }, { status: 400 });
+    if (!trackId || !overallImpression) {
+      return NextResponse.json({ error: "Track ID and overall impression are required" }, { status: 400 });
     }
 
     const user = await prisma.user.findUnique({
@@ -26,9 +39,19 @@ export async function POST(request: Request) {
 
     const newCritique = await prisma.critique.create({
       data: {
-        content,
         trackId,
         userId: user.id,
+        mixingQuality,
+        tonalBalance,
+        masteringLoudness,
+        soundDesign,
+        arrangement,
+        technicalSummary,
+        emotionalResponse,
+        imagery,
+        standoutElements,
+        genreFit,
+        overallImpression
       },
     });
 
