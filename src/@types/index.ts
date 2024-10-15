@@ -1,22 +1,28 @@
-import { Critique, User } from '@prisma/client'
+import { Critique } from '@prisma/client'
 
-export interface ExtendedCritique extends Critique {
-  user: {
-    id: string;
-    name: string | null;
-    email: string | null;
-    image: string | null;
-  }
+export interface MinimalUser {
+  id: string;
+  name: string | null;
+  email: string | null;
+  image: string | null;
+  coins: number;
+  role: string | null;
+}
+
+export interface ExtendedCritique extends Omit<Critique, 'user'> {
+  user: MinimalUser;
 }
 
 export interface TrackWithCritiques {
   id: string;
   title: string;
   url: string;
-  description?: string | null;
-  genre?: string | null;
-  user: User;
+  description: string | null;
+  genre: string | null;
+  user: MinimalUser;
   critiques: ExtendedCritique[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Track {

@@ -11,9 +11,10 @@ import { TrackWithCritiques, ExtendedCritique } from '@/src/@types'
 
 interface TrackDisplayProps {
   track: TrackWithCritiques;
+  isListingPage: boolean;
 }
 
-const TrackDisplay: React.FC<TrackDisplayProps> = ({ track }) => {
+const TrackDisplay: React.FC<TrackDisplayProps> = ({ track, isListingPage }) => {
   const { data: session } = useSession();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedCritique, setSelectedCritique] = useState<ExtendedCritique | null>(null);
@@ -37,6 +38,7 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({ track }) => {
   }, [session, track.critiques]);
 
   const isOwnTrack = session?.user?.email === track.user.email;
+  const hasGivenCritique = !!userCritique;
 
   const handleCritiqueClick = (critique: ExtendedCritique) => {
     setSelectedCritique(critique);
@@ -69,21 +71,23 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({ track }) => {
           {renderCritiqueSummary(track.critiques[0])}
         </div>
       )}
-      {!isOwnTrack && (
-        userCritique ? (
-          canEdit ? (
-            <Link href={`/critique/${track.id}/edit`} className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-              Edit Critique
-            </Link>
-          ) : (
-            <p className="mt-4 text-gray-600">You&apos;ve already submitted a critique for this track.</p>
-          )
-        ) : (
-          <Link href={`/critique/${track.id}`} className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      <div className="mt-4 space-x-2">
+        {isListingPage && (
+          <Link href={`/tracks/${track.id}`} className="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            View Track
+          </Link>
+        )}
+        {!isOwnTrack && !hasGivenCritique && (
+          <Link href={`/critique/${track.id}`} className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Give Critique
           </Link>
-        )
-      )}
+        )}
+        {!isOwnTrack && hasGivenCritique && canEdit && (
+          <Link href={`/critique/${track.id}/edit`} className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Edit Critique
+          </Link>
+        )}
+      </div>
       <SlideOverPanel isOpen={isDetailsOpen} onClose={() => setIsDetailsOpen(false)}>
         {selectedCritique && (
           <div>
