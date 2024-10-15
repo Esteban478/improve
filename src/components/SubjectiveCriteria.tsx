@@ -1,9 +1,8 @@
 import CharacterCounterInput from './CharacterCounterInput';
-import { CritiqueData } from './CritiqueForm';
 
 interface SubjectiveCriteriaProps {
-  formData: CritiqueData;
-  onChange: (name: keyof CritiqueData, value: string) => void;
+  formData: { [key: string]: string | number | null };
+  onChange: (name: string, value: string) => void;
 }
 
 const SubjectiveCriteria: React.FC<SubjectiveCriteriaProps> = ({ formData, onChange }) => {
@@ -14,29 +13,29 @@ const SubjectiveCriteria: React.FC<SubjectiveCriteriaProps> = ({ formData, onCha
         maxLength={500}
         label="Emotional Response"
         placeholder="How does listening to this track make you feel?"
-        value={formData.emotionalResponse}
-        onChange={(value: string) => onChange('emotionalResponse', value)}
+        value={formData['emotionalResponse'] as string || ''}
+        onChange={(value) => onChange('emotionalResponse', value)}
       />
       <CharacterCounterInput
         maxLength={500}
         label="Imagery"
         placeholder="What images or scenes come to mind when listening?"
-        value={formData.imagery}
-        onChange={(value: string) => onChange('imagery', value)}
+        value={formData['imagery'] as string || ''}
+        onChange={(value) => onChange('imagery', value)}
       />
       <CharacterCounterInput
         maxLength={500}
         label="Standout Elements"
         placeholder="What elements of the track stand out to you the most?"
-        value={formData.standoutElements}
-        onChange={(value: string) => onChange('standoutElements', value)}
+        value={formData['standoutElements'] as string || ''}
+        onChange={(value) => onChange('standoutElements', value)}
       />
       <CharacterCounterInput
         maxLength={500}
         label="Genre Fit"
         placeholder="How well does this track fit within its intended genre?"
-        value={formData.genreFit}
-        onChange={(value: string) => onChange('genreFit', value)}
+        value={formData['genreFit'] as string || ''}
+        onChange={(value) => onChange('genreFit', value)}
       />
     </div>
   );

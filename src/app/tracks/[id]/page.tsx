@@ -49,7 +49,7 @@ export default async function TrackPage({ params }: { params: { id: string } }) 
   return (
     <div className="container mx-auto px-4 py-8">
       <Suspense fallback={<div>Loading track...</div>}>
-        <TrackDisplay track={track} isListingPage={false} />
+        <TrackDisplay track={track} isListingPage={false} isCritiquePage={false}/>
       </Suspense>
       <h2 className="text-2xl font-bold mt-8 mb-4">Critiques</h2>
       <Suspense fallback={<div>Loading critiques...</div>}>

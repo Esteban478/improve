@@ -12,9 +12,10 @@ import { TrackWithCritiques, ExtendedCritique } from '@/src/@types'
 interface TrackDisplayProps {
   track: TrackWithCritiques;
   isListingPage: boolean;
+  isCritiquePage?: boolean;
 }
 
-const TrackDisplay: React.FC<TrackDisplayProps> = ({ track, isListingPage }) => {
+const TrackDisplay: React.FC<TrackDisplayProps> = ({ track, isListingPage, isCritiquePage = false }) => {
   const { data: session } = useSession();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedCritique, setSelectedCritique] = useState<ExtendedCritique | null>(null);
@@ -77,7 +78,7 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({ track, isListingPage }) => 
             View Track
           </Link>
         )}
-        {!isOwnTrack && !hasGivenCritique && (
+        {!isOwnTrack && !isCritiquePage && !hasGivenCritique && (
           <Link href={`/critique/${track.id}`} className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Give Critique
           </Link>

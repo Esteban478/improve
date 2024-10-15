@@ -50,7 +50,7 @@ export default async function Home() {
       <h1 className="text-3xl font-bold mb-6">Latest Tracks</h1>
       <div className="space-y-8">
         {tracks.map((track) => (
-          <TrackDisplay key={track.id} track={track} isListingPage={true} />
+          <TrackDisplay key={track.id} track={track} isListingPage={true} isCritiquePage={false} />
         ))}
       </div>
     </main>

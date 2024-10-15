@@ -1,9 +1,8 @@
 import CharacterCounterInput from './CharacterCounterInput';
-import { CritiqueData } from './CritiqueForm';
 
 interface OverallImpressionProps {
-  formData: CritiqueData;
-  onChange: (name: keyof CritiqueData, value: string) => void;
+  formData: { [key: string]: string | number | null };
+  onChange: (name: string, value: string) => void;
 }
 
 const OverallImpression: React.FC<OverallImpressionProps> = ({ formData, onChange }) => {
@@ -14,7 +13,7 @@ const OverallImpression: React.FC<OverallImpressionProps> = ({ formData, onChang
         maxLength={1000}
         label="Overall Impression"
         placeholder="What's your overall impression of the track? Consider all aspects you've evaluated so far."
-        value={formData.overallImpression}
+        value={formData['overallImpression'] as string || ''}
         onChange={(value) => onChange('overallImpression', value)}
       />
     </div>

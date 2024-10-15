@@ -77,7 +77,11 @@ export default async function Dashboard() {
               {user.critiques.map((critique) => (
                 <li key={critique.id} className="bg-white shadow-md rounded-lg p-4">
                   <h3 className="font-semibold">{critique.track.title}</h3>
-                  <p className="text-gray-600">{critique.content.substring(0, 100)}...</p>
+                  <p className="text-gray-600">
+                    {critique.overallImpression
+                      ? critique.overallImpression.substring(0, 100) + '...'
+                      : 'No overall impression provided.'}
+                  </p>
                   <Link href={`/tracks/${critique.track.id}`} className="text-blue-500 hover:underline">
                     View Track
                   </Link>

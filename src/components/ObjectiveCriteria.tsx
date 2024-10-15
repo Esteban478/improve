@@ -2,15 +2,14 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import CharacterCounterInput from './CharacterCounterInput';
-import { CritiqueData } from './CritiqueForm';
 
 interface ObjectiveCriteriaProps {
-  formData: CritiqueData;
-  onChange: (name: keyof CritiqueData, value: number | null | string) => void;
+  formData: { [key: string]: string | number | null };
+  onChange: (name: string, value: string | number | null) => void;
 }
 
 const ObjectiveCriteria: React.FC<ObjectiveCriteriaProps> = ({ formData, onChange }) => {
-  const renderSlider = (name: keyof CritiqueData, label: string, tooltip: string) => (
+  const renderSlider = (name: string, label: string, tooltip: string) => (
     <div className="mb-4">
       <TooltipProvider>
         <Tooltip>
@@ -39,7 +38,7 @@ const ObjectiveCriteria: React.FC<ObjectiveCriteriaProps> = ({ formData, onChang
         <span>Poor</span>
         <span>Excellent</span>
       </div>
-      <button onClick={() => onChange(name, null)} className="text-sm text-blue-500 mt-2">
+      <button type="button" onClick={() => onChange(name, null)} className="text-sm text-blue-500 mt-2">
         Not sure
       </button>
     </div>
@@ -57,7 +56,7 @@ const ObjectiveCriteria: React.FC<ObjectiveCriteriaProps> = ({ formData, onChang
         maxLength={500}
         label="Technical Summary"
         placeholder="Summarize your thoughts on the technical aspects of the track..."
-        value={formData.technicalSummary}
+        value={formData['technicalSummary'] as string || ''}
         onChange={(value) => onChange('technicalSummary', value)}
       />
     </div>

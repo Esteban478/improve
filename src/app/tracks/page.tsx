@@ -67,7 +67,7 @@ export default async function TracksPage({ searchParams }: { searchParams: { sea
       <Suspense fallback={<div>Loading tracks...</div>}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tracks.map((track) => (
-            <TrackDisplay key={track.id} track={track} isListingPage={true} />
+            <TrackDisplay key={track.id} track={track} isListingPage={true} isCritiquePage={false} />
           ))}
         </div>
       </Suspense>
