@@ -1,45 +1,7 @@
 import { notFound } from 'next/navigation';
-import prisma from '@/lib/prisma';
-import TrackDisplay from '@/src/components/TrackDisplay';
+import TrackDisplay from '@/components/TrackDisplay';
 import { Suspense } from 'react';
-import { TrackWithCritiques } from '@/src/@types';
-
-async function getTrack(id: string): Promise<TrackWithCritiques | null> {
-  const track = await prisma.track.findUnique({
-    where: { id },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          coins: true,
-          role: true,
-        },
-      },
-      critiques: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
-              coins: true,
-              role: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      },
-    },
-  });
-
-  return track as TrackWithCritiques | null;
-}
+import { getTrack } from '@/actions/track-actions';
 
 export default async function TrackPage({ params }: { params: { id: string } }) {
   const track = await getTrack(params.id);

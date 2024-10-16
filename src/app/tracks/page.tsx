@@ -1,63 +1,10 @@
 import { Suspense } from 'react';
-import prisma from '@/lib/prisma';
-import TrackDisplay from '@/src/components/TrackDisplay';
-import LoadMore from '@/src/components/LoadMore';
-import { TrackWithCritiques } from '@/src/@types';
-
-async function getTracks(searchParams: { search?: string, genre?: string, page?: string, take?: string }): Promise<TrackWithCritiques[]> {
-  const { search = '', genre = '', page = '1', take = '10' } = searchParams;
-  const pageSize = parseInt(take);
-  const skip = (parseInt(page) - 1) * pageSize;
-
-  const tracks = await prisma.track.findMany({
-    where: {
-      OR: [
-        { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
-      ],
-      genre: genre ? { contains: genre, mode: 'insensitive' } : undefined,
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          coins: true,
-          role: true,
-        },
-      },
-      critiques: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
-              coins: true,
-              role: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    skip,
-    take: pageSize,
-  });
-
-  return tracks as TrackWithCritiques[];
-}
+import TrackDisplay from '@/components/TrackDisplay';
+import LoadMore from '@/components/LoadMore';
+import { getTracks } from '@/actions/track-actions';
 
 export default async function TracksPage({ searchParams }: { searchParams: { search?: string, genre?: string, page?: string, take?: string } }) {
-  const tracks: TrackWithCritiques[] = await getTracks(searchParams);
+  const tracks = await getTracks(searchParams);
   const currentPage = parseInt(searchParams.page || '1');
   const currentTake = parseInt(searchParams.take || '10');
 

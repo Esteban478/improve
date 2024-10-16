@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signUp } from '@/actions/auth-actions'
+import PasswordStrengthMeter from '@/components/PasswordStrengthMeter'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -30,46 +32,58 @@ export default function SignUp() {
     e.preventDefault()
     if (!validateForm()) return
 
-    const response = await fetch('/api/auth/sign-up', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
-    })
-    if (response.ok) {
+    try {
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('email', email)
+      formData.append('password', password)
+
+      await signUp(formData)
       router.push('/auth/sign-in')
-    } else {
-      const data = await response.json()
-      setError(data.error || 'Sign up failed')
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('An unknown error occurred')
+      }
     }
   }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <h1>Sign Up</h1>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
-        required
-      />
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Sign Up</button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
+        {error && <p className="text-red-500">{error}</p>}
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name"
+          required
+          className="p-2 border rounded"
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+          className="p-2 border rounded"
+        />
+        <div>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            className="p-2 border rounded w-full"
+          />
+          <PasswordStrengthMeter password={password} />
+        </div>
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          Sign Up
+        </button>
       </form>
     </main>
   )

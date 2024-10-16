@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth/next"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
-import TrackDisplay from "@/src/components/TrackDisplay"
-import CritiqueForm from "@/src/components/CritiqueForm"
-import { TrackWithCritiques } from "@/src/@types"
+import TrackDisplay from "@/components/TrackDisplay"
+import CritiqueForm from "@/components/CritiqueForm"
+import { TrackWithCritiques } from "@/src/types"
 
 export default async function CritiquePage({ params }: { params: { trackId: string } }) {
   const session = await getServerSession()

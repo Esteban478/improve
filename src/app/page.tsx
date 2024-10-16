@@ -1,5 +1,5 @@
-import { TrackWithCritiques } from '@/src/@types';
-import TrackDisplay from "@/src/components/TrackDisplay";
+import { TrackWithCritiques } from '@/src/types';
+import TrackDisplay from "@/components/TrackDisplay";
 import prisma from '@/lib/prisma';
 
 async function getLatestTracks(limit: number = 5): Promise<TrackWithCritiques[]> {

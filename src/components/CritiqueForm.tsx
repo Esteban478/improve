@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button'
 import ObjectiveCriteria from './ObjectiveCriteria'
 import SubjectiveCriteria from './SubjectiveCriteria'
 import OverallImpression from './OverallImpression'
-import { submitCritique, updateCritique } from '../actions/actions'
-import { ExtendedCritique } from '@/src/@types'
+import { submitCritique, updateCritique } from '@/actions/actions'
+import { ExtendedCritique } from '@/types/index'
 
 interface CritiqueFormProps {
   trackId: string

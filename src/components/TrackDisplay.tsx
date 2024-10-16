@@ -7,7 +7,7 @@ import SoundCloudEmbed from './SoundCloudEmbed';
 import UserAvatar from './UserAvatar';
 import { Button } from '@/components/ui/button';
 import SlideOverPanel from './SlideOverPanel';
-import { TrackWithCritiques, ExtendedCritique } from '@/src/@types'
+import { TrackWithCritiques, ExtendedCritique } from '@/src/types'
 
 interface TrackDisplayProps {
   track: TrackWithCritiques;

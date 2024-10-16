@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next"
 import prisma from '@/lib/prisma'
 import Link from 'next/link'
-import UserAvatar from "@/src/components/UserAvatar"
+import UserAvatar from "@/components/UserAvatar"
 
 async function getUserData(email: string) {
   return prisma.user.findUnique({

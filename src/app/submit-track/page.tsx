@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { submitTrack } from '../../actions/actions'
+import { submitTrack } from '@/actions/actions'
 
 export default function SubmitTrack() {
   const router = useRouter()
