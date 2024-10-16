@@ -2,39 +2,41 @@
 
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { submitTrack } from '@/actions/actions'
+import { submitTrack } from '@/actions/track-actions'
+import ErrorDisplay from '@/components/ErrorDisplay'
+import { catchErrorTyped } from '@/lib/utils'
+import { useState } from 'react'
 
 export default function SubmitTrack() {
   const router = useRouter()
   const { data: session } = useSession()
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (formData: FormData) => {
     if (!session?.user?.email) {
-      alert('You must be logged in to submit a track.')
+      setError("You must be logged in to submit a track.")
       return
     }
 
-    try {
-      formData.append('userEmail', session.user.email)
-      await submitTrack(formData)
+    formData.append('userEmail', session.user.email)
+    const [submitError] = await catchErrorTyped(submitTrack(formData))
+
+    if (submitError) {
+      console.error('Error submitting track:', submitError)
+      setError(submitError.message || "Failed to submit track. Please try again.")
+    } else {
       router.push('/dashboard')
-    } catch (error) {
-      console.error('Error submitting track:', error)
-      if (error instanceof Error) {
-        alert(`Failed to submit track. Error: ${error.message}`)
-      } else {
-        alert('Failed to submit track. Please try again.')
-      }
     }
   }
 
   if (!session) {
-    return <div>Please log in to submit a track.</div>
+    return <ErrorDisplay message="Please log in to submit a track." />
   }
 
   return (
     <div className="max-w-md mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-5">Submit a Track</h1>
+      {error && <ErrorDisplay message={error} />}
       <form action={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="title" className="block mb-1">Title</label>

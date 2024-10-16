@@ -1,12 +1,19 @@
 import { notFound } from 'next/navigation';
-import TrackDisplay from '@/components/TrackDisplay';
 import { Suspense } from 'react';
+import TrackDisplay from '@/components/TrackDisplay';
+import ErrorDisplay from '@/components/ErrorDisplay';
 import { getTrack } from '@/actions/track-actions';
+import { catchErrorTyped } from '@/lib/utils';
 
 export default async function TrackPage({ params }: { params: { id: string } }) {
-  const track = await getTrack(params.id);
+  const [error, track] = await catchErrorTyped(getTrack(params.id));
 
-  if (!track) notFound();
+  if (error) {
+    console.error("Failed to fetch track:", error);
+    return <ErrorDisplay message="Unable to load track details. Please try again later." />;
+  }
+
+  if (!track) return notFound();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -25,7 +32,10 @@ export default async function TrackPage({ params }: { params: { id: string } }) 
             ))}
           </div>
         ) : (
-          <p>No critiques yet. Be the first to critique this track!</p>
+          <ErrorDisplay 
+            title="No critiques yet" 
+            message="Be the first to critique this track!" 
+          />
         )}
       </Suspense>
     </div>

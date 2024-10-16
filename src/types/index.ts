@@ -15,3 +15,10 @@ export interface TrackWithCritiques extends Omit<Track, 'user' | 'critiques'> {
   user: MinimalUser;
   critiques: ExtendedCritique[];
 }
+
+export interface CritiqueWithTrack extends ExtendedCritique {
+  track: {
+    id: string;
+    title: string;
+  };
+}

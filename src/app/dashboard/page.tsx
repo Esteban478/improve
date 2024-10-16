@@ -1,98 +1,91 @@
 import { getServerSession } from "next-auth/next"
-import prisma from '@/lib/prisma'
 import Link from 'next/link'
+import { redirect } from "next/navigation"
+import { Suspense } from 'react'
 import UserAvatar from "@/components/UserAvatar"
+import ErrorDisplay from "@/components/ErrorDisplay"
+import { getUserProfile, getUserTracks, getUserGivenCritiques, getUserReceivedCritiques } from "@/actions/user-actions"
+import { catchErrorTyped } from "@/lib/utils"
+import CritiquesSection from "@/components/CritiquesSection"
 
-async function getUserData(email: string) {
-  return prisma.user.findUnique({
-    where: { email },
-    include: {
-      tracks: {
-        orderBy: { createdAt: 'desc' },
-        take: 5,
-      },
-      critiques: {
-        orderBy: { createdAt: 'desc' },
-        take: 5,
-        include: { track: true },
-      },
-    },
-  })
+async function UserProfile({ email }: { email: string }) {
+  const [error, user] = await catchErrorTyped(getUserProfile(email))
+  if (error || !user) return <ErrorDisplay message="Unable to load user profile." />
+
+  return (
+    <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+      <div className="flex items-center mb-4">
+        <UserAvatar src={user.image} alt={user.name || 'User'} size={32} />
+        <div>
+          <h1 className="text-2xl font-bold">{user.name}</h1>
+          <p className="text-gray-600">{user.email}</p>
+          <p className="text-yellow-600">{user.coins} coins</p>
+        </div>
+      </div>
+      <Link href="/profile" className="text-blue-500 hover:underline">
+        Edit Profile
+      </Link>
+    </div>
+  )
+}
+
+async function UserTracks({ email }: { email: string }) {
+  const tracks = await getUserTracks(email)
+
+  return (
+    <div className="mb-8">
+      <h2 className="text-xl font-bold mb-4">Your Tracks</h2>
+      {tracks.length > 0 ? (
+        <ul className="space-y-4">
+          {tracks.map((track) => (
+            <li key={track.id} className="bg-white shadow-md rounded-lg p-4">
+              <h3 className="font-semibold">{track.title}</h3>
+              <p className="text-gray-600">{track.genre || 'No genre specified'}</p>
+              <Link href={`/tracks/${track.id}`} className="text-blue-500 hover:underline">
+                View Track
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-600">You haven&apos;t submitted any tracks yet.</p>
+      )}
+    </div>
+  )
+}
+
+async function UserCritiques({ email }: { email: string }) {
+  const [givenError, givenCritiques] = await catchErrorTyped(getUserGivenCritiques(email))
+  const [receivedError, receivedCritiques] = await catchErrorTyped(getUserReceivedCritiques(email))
+  const safeGivenCritiques = givenCritiques || []
+  const safeReceivedCritiques = receivedCritiques || []
+
+  if (givenError || receivedError) {
+    return <ErrorDisplay message="Unable to load user critiques." />
+  }
+
+  return <CritiquesSection givenCritiques={safeGivenCritiques} receivedCritiques={safeReceivedCritiques} />
 }
 
 export default async function Dashboard() {
   const session = await getServerSession()
   if (!session || !session.user?.email) {
-    return <div>Access Denied</div>
-  }
-
-  const user = await getUserData(session.user.email)
-  if (!user) {
-    return <div>User not found</div>
+    redirect("/auth/sign-in?callbackUrl=/dashboard")
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-        <div className="flex items-center mb-4">
-        <UserAvatar src={session.user?.image} alt={session.user?.name || 'User'} size={32} />
-          <div>
-            <h1 className="text-2xl font-bold">{user.name}</h1>
-            <p className="text-gray-600">{user.email}</p>
-            <p className="text-yellow-600">{user.coins} coins</p>
-          </div>
-        </div>
-        <Link href="/profile" className="text-blue-500 hover:underline">
-          Edit Profile
-        </Link>
-      </div>
+      <Suspense fallback={<div>Loading profile...</div>}>
+        <UserProfile email={session.user.email} />
+      </Suspense>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-bold mb-4">Your Tracks</h2>
-          {user.tracks.length > 0 ? (
-            <ul className="space-y-4">
-              {user.tracks.map((track) => (
-                <li key={track.id} className="bg-white shadow-md rounded-lg p-4">
-                  <h3 className="font-semibold">{track.title}</h3>
-                  <p className="text-gray-600">{track.genre || 'No genre specified'}</p>
-                  <Link href={`/tracks/${track.id}`} className="text-blue-500 hover:underline">
-                    View Track
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600">You haven&apos;t submitted any tracks yet.</p>
-          )}
-          <Link href="/submit-track" className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Submit a Track
-          </Link>
-        </div>
+      <Suspense fallback={<div>Loading tracks...</div>}>
+        <UserTracks email={session.user.email} />
+      </Suspense>
 
-        <div>
-          <h2 className="text-xl font-bold mb-4">Your Critiques</h2>
-          {user.critiques.length > 0 ? (
-            <ul className="space-y-4">
-              {user.critiques.map((critique) => (
-                <li key={critique.id} className="bg-white shadow-md rounded-lg p-4">
-                  <h3 className="font-semibold">{critique.track.title}</h3>
-                  <p className="text-gray-600">
-                    {critique.overallImpression
-                      ? critique.overallImpression.substring(0, 100) + '...'
-                      : 'No overall impression provided.'}
-                  </p>
-                  <Link href={`/tracks/${critique.track.id}`} className="text-blue-500 hover:underline">
-                    View Track
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600">You haven&apos;t written any critiques yet.</p>
-          )}
-        </div>
-      </div>
+      <Suspense fallback={<div>Loading critiques...</div>}>
+        <UserCritiques email={session.user.email} />
+      </Suspense>
     </div>
   )
 }

@@ -10,6 +10,7 @@ import SubjectiveCriteria from './SubjectiveCriteria'
 import OverallImpression from './OverallImpression'
 import { submitCritique, updateCritique } from '@/actions/actions'
 import { ExtendedCritique } from '@/types/index'
+import { revalidatePath } from 'next/cache'
 
 interface CritiqueFormProps {
   trackId: string
@@ -109,7 +110,9 @@ export default function CritiqueForm({ trackId, existingCritique }: CritiqueForm
       // Clear localStorage after successful submission
       localStorage.removeItem(STORAGE_KEY);
 
-      router.push(`/tracks/${trackId}`)
+      // router.push(`/tracks/${trackId}`)
+      revalidatePath('/dashboard');
+      router.push('/dashboard');
     } catch (error: unknown) {
       console.error('Error submitting critique:', error)
       if (error instanceof Error) {

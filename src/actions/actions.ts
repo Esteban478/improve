@@ -3,42 +3,6 @@
 import { revalidatePath } from 'next/cache'
 import prisma from '@/lib/prisma'
 
-export async function submitTrack(formData: FormData) {
-  const title = formData.get('title') as string
-  const description = formData.get('description') as string
-  const url = formData.get('url') as string
-  const genre = formData.get('genre') as string
-  const userEmail = formData.get('userEmail') as string
-
-  if (!title || !url || !userEmail) {
-    throw new Error('Missing required fields')
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-  })
-
-  if (!user) {
-    throw new Error('User not found')
-  }
-
-  const newTrack = await prisma.track.create({
-    data: {
-      title,
-      description: description || undefined,
-      url,
-      genre: genre || undefined,
-      userId: user.id,
-    },
-  })
-
-  revalidatePath('/tracks')
-  revalidatePath('/')
-  revalidatePath('/dashboard')
-
-  return newTrack
-}
-
 export async function submitCritique(formData: FormData) {
   try {
     const trackId = formData.get('trackId') as string
@@ -96,6 +60,7 @@ export async function submitCritique(formData: FormData) {
     })
 
     revalidatePath(`/tracks/${trackId}`)
+    revalidatePath('/dashboard')
 
     return newCritique
   } catch (error: unknown) {

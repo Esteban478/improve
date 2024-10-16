@@ -5,21 +5,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function catchErrorTyped<T, E extends new (message?: string) => Error>(
+export function catchErrorTyped<T, E extends Error = Error>(
   promise: Promise<T>,
-  errorsToCatch?: E[]
-): Promise<[undefined, T] | [InstanceType<E>]> {
+  errorsToCatch?: Array<new (...args: unknown[]) => E>
+): Promise<[E | undefined, T | undefined]> {
   return promise
-    .then(data => {
-      return [undefined, data] as [undefined, T]
-    })
+    .then(data => [undefined, data] as [undefined, T])
     .catch(error => {
-      if (errorsToCatch === undefined) {
-        return [error]
+      if (!errorsToCatch) {
+        return [error as E, undefined];
       }
-      if (errorsToCatch.some(e => error instanceof e)) {
-        return [error]
+      if (errorsToCatch.some(ErrorClass => error instanceof ErrorClass)) {
+        return [error as E, undefined];
       }
-      throw error
-    })
+      throw error;
+    });
 }
