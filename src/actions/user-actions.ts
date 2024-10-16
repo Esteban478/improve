@@ -46,6 +46,7 @@ export async function getUserGivenCritiques(email: string): Promise<CritiqueWith
           select: {
             id: true,
             title: true,
+            slug: true,
           }
         } 
       },
@@ -71,6 +72,7 @@ export async function getUserReceivedCritiques(email: string): Promise<CritiqueW
           select: {
             id: true,
             title: true,
+            slug: true,
           }
         },
         user: {

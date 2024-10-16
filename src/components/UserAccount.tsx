@@ -4,11 +4,27 @@ import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import UserAvatar from './UserAvatar'
+import { getUserCoins } from '@/actions/coin-actions'
 
 export default function UserAccount() {
   const { data: session, status } = useSession()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [coins, setCoins] = useState<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    async function fetchCoins() {
+      if (session?.user?.email) {
+        try {
+          const userCoins = await getUserCoins(session.user.email)
+          setCoins(userCoins)
+        } catch (error) {
+          console.error('Failed to fetch user coins:', error)
+        }
+      }
+    }
+    fetchCoins()
+  }, [session])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -48,7 +64,7 @@ export default function UserAccount() {
       >
         <UserAvatar src={session.user?.image} alt={session.user?.name || 'User'} size={32} />
         <span>{session.user?.name}</span>
-        <span className="text-yellow-400">{/* Add coin balance here */} coins</span>
+        {coins !== null && <span className="text-yellow-400">{coins} coins</span>}
       </button>
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">

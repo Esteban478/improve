@@ -41,7 +41,7 @@ async function UserTracks({ email }: { email: string }) {
             <li key={track.id} className="bg-white shadow-md rounded-lg p-4">
               <h3 className="font-semibold">{track.title}</h3>
               <p className="text-gray-600">{track.genre || 'No genre specified'}</p>
-              <Link href={`/tracks/${track.id}`} className="text-blue-500 hover:underline">
+              <Link href={`/tracks/${track.slug}`} className="text-blue-500 hover:underline">
                 View Track
               </Link>
             </li>

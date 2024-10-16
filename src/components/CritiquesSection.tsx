@@ -21,7 +21,7 @@ function CritiqueList({ critiques, type }: { critiques: CritiqueWithTrack[], typ
                   ? critique.overallImpression.substring(0, 100) + '...'
                   : 'No overall impression provided.'}
               </p>
-              <Link href={`/tracks/${critique.track.id}`} className="text-blue-500 hover:underline">
+              <Link href={`/tracks/${critique.track.slug}`} className="text-blue-500 hover:underline">
                 View Track
               </Link>
             </li>

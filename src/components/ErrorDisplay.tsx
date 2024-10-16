@@ -1,4 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ERROR_DISPLAY_TITLE } from "@/lib/constants";
 import { AlertCircle } from "lucide-react";
 
 interface ErrorDisplayProps {
@@ -7,7 +8,7 @@ interface ErrorDisplayProps {
 }
 
 const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ 
-  title = "An error occurred", 
+  title = ERROR_DISPLAY_TITLE, 
   message 
 }) => {
   return (

@@ -20,5 +20,6 @@ export interface CritiqueWithTrack extends ExtendedCritique {
   track: {
     id: string;
     title: string;
+    slug: string;
   };
 }

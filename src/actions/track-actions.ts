@@ -1,11 +1,15 @@
 'use server'
 
 import prisma from '@/lib/prisma'
-import { catchErrorTyped } from '@/lib/utils'
+import { catchErrorTyped, generateUniqueSlug } from '@/lib/utils'
 import { TrackWithCritiques } from '@/types/index'
+import { updateCoins } from './coin-actions'
+import { AuthorizationError } from '@/types/errors'
 import { revalidatePath } from 'next/cache'
 
-export async function getTrack(id: string): Promise<TrackWithCritiques | null> {
+const FEEDBACK_REQUEST_COST = 3
+
+export async function getTrackById(id: string): Promise<TrackWithCritiques | null> {
   const track = await prisma.track.findUnique({
     where: { id },
     include: {
@@ -38,6 +42,47 @@ export async function getTrack(id: string): Promise<TrackWithCritiques | null> {
       },
     },
   })
+
+  return track as TrackWithCritiques | null
+}
+
+export async function getTrackBySlug(slug: string): Promise<TrackWithCritiques | null> {
+  console.log('Fetching track with slug:', slug); // Add this line
+
+  const track = await prisma.track.findUnique({
+    where: { slug },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          coins: true,
+          role: true,
+        },
+      },
+      critiques: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+              coins: true,
+              role: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
+  })
+
+  console.log('Found track:', track); // Add this line
 
   return track as TrackWithCritiques | null
 }
@@ -196,6 +241,7 @@ export async function submitTrack(formData: FormData) {
   const url = formData.get('url') as string
   const genre = formData.get('genre') as string
   const userEmail = formData.get('userEmail') as string
+  const requestFeedback = formData.get('requestFeedback') as string
 
   if (!title || !url || !userEmail) {
     throw new Error('Missing required fields')
@@ -209,13 +255,18 @@ export async function submitTrack(formData: FormData) {
     throw new Error('User not found')
   }
 
+  const slug = await generateUniqueSlug(title)
+
   const newTrack = await prisma.track.create({
     data: {
       title,
+      slug,
       description: description || undefined,
       url,
       genre: genre || undefined,
       userId: user.id,
+      requested: requestFeedback ? true : false,
+      requestedAt: requestFeedback ? new Date() : null,
     },
   })
 
@@ -224,4 +275,58 @@ export async function submitTrack(formData: FormData) {
   revalidatePath('/dashboard')
 
   return newTrack
+}
+
+export async function requestFeedback(trackId: string, userId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  if (!user) throw new AuthorizationError('User not found')
+
+  if (user.coins < FEEDBACK_REQUEST_COST) {
+    throw new Error('Insufficient coins to request feedback')
+  }
+
+  const updatedTrack = await prisma.track.update({
+    where: { id: trackId },
+    data: { requested: true, requestedAt: new Date() },
+  })
+
+  // Deduct coins for requesting feedback
+  await updateCoins(userId, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
+
+  revalidatePath(`/tracks/${trackId}`)
+  revalidatePath('/dashboard')
+
+  return updatedTrack
+}
+
+export async function getTracksNeedingFeedback(limit: number = 10) {
+  const tracks = await prisma.track.findMany({
+    where: { requested: true },
+    orderBy: { requestedAt: 'desc' },
+    take: limit,
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+      critiques: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return tracks;
 }

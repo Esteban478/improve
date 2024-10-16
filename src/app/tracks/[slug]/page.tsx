@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import TrackDisplay from '@/components/TrackDisplay';
 import ErrorDisplay from '@/components/ErrorDisplay';
-import { getTrack } from '@/actions/track-actions';
+import { getTrackBySlug } from '@/actions/track-actions';
 import { catchErrorTyped } from '@/lib/utils';
 
-export default async function TrackPage({ params }: { params: { id: string } }) {
-  const [error, track] = await catchErrorTyped(getTrack(params.id));
+export default async function TrackPage({ params }: { params: { slug: string } }) {
+  const [error, track] = await catchErrorTyped(getTrackBySlug(params.slug));
 
   if (error) {
     console.error("Failed to fetch track:", error);
@@ -18,7 +18,7 @@ export default async function TrackPage({ params }: { params: { id: string } }) 
   return (
     <div className="container mx-auto px-4 py-8">
       <Suspense fallback={<div>Loading track...</div>}>
-        <TrackDisplay track={track} isListingPage={false} isCritiquePage={false}/>
+        <TrackDisplay track={track} isListingPage={false} isCritiquePage={false} showFeedbackRequest={false}/>
       </Suspense>
       <h2 className="text-2xl font-bold mt-8 mb-4">Critiques</h2>
       <Suspense fallback={<div>Loading critiques...</div>}>

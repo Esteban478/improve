@@ -2,10 +2,70 @@
 
 import { revalidatePath } from 'next/cache'
 import prisma from '@/lib/prisma'
+import { updateCoins } from './coin-actions'
+import { AuthorizationError } from '../types/errors'
+
+const CRITIQUE_REWARD = 1
+const FEEDBACK_REQUEST_COST = 3
+
+export async function getTracksNeedingFeedback(limit: number = 10) {
+  const tracks = await prisma.track.findMany({
+    where: { requested: true },
+    orderBy: { requestedAt: 'desc' },
+    take: limit,
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+      critiques: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  })
+
+  return tracks
+}
+
+export async function requestFeedback(trackId: string, userId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  if (!user) throw new AuthorizationError('User not found')
+
+  if (user.coins < FEEDBACK_REQUEST_COST) {
+    throw new Error('Insufficient coins to request feedback')
+  }
+
+  const updatedTrack = await prisma.track.update({
+    where: { id: trackId },
+    data: { requested: true, requestedAt: new Date() },
+  })
+
+  // Deduct coins for requesting feedback
+  await updateCoins(userId, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
+
+  revalidatePath(`/tracks/${trackId}`)
+  revalidatePath('/dashboard')
+
+  return updatedTrack
+}
 
 export async function submitCritique(formData: FormData) {
   try {
     const trackId = formData.get('trackId') as string
+    const slug = formData.get('slug') as string
     const userEmail = formData.get('userEmail') as string
     const mixingQuality = parseInt(formData.get('mixingQuality') as string) || null
     const tonalBalance = parseInt(formData.get('tonalBalance') as string) || null
@@ -59,7 +119,8 @@ export async function submitCritique(formData: FormData) {
       },
     })
 
-    revalidatePath(`/tracks/${trackId}`)
+    await updateCoins(user.id, CRITIQUE_REWARD, 'EARN', 'Submitted critique')
+    revalidatePath(`/tracks/${slug}`)
     revalidatePath('/dashboard')
 
     return newCritique

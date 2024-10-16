@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button'
 import ObjectiveCriteria from './ObjectiveCriteria'
 import SubjectiveCriteria from './SubjectiveCriteria'
 import OverallImpression from './OverallImpression'
-import { submitCritique, updateCritique } from '@/actions/actions'
+import { submitCritique, updateCritique } from '@/actions/critique-actions'
 import { ExtendedCritique } from '@/types/index'
 import { revalidatePath } from 'next/cache'
+import { STORAGE_KEY } from '@/lib/constants'
 
 interface CritiqueFormProps {
   trackId: string
@@ -21,7 +22,7 @@ interface FormDataState {
   [key: string]: string | number | null;
 }
 
-const STORAGE_KEY = 'critiqueFormData';
+
 
 export default function CritiqueForm({ trackId, existingCritique }: CritiqueFormProps) {
   const [step, setStep] = useState(1)
@@ -110,8 +111,10 @@ export default function CritiqueForm({ trackId, existingCritique }: CritiqueForm
       // Clear localStorage after successful submission
       localStorage.removeItem(STORAGE_KEY);
 
-      // router.push(`/tracks/${trackId}`)
-      revalidatePath('/dashboard');
+      // Use router.refresh() to trigger a re-fetch of the data
+      router.refresh();
+
+      // Navigate to the dashboard
       router.push('/dashboard');
     } catch (error: unknown) {
       console.error('Error submitting critique:', error)

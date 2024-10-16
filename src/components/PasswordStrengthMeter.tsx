@@ -1,3 +1,5 @@
+import { COLOR_LABELS, MIN_PASSWORD_LENGTH, STRENGTH_LABELS } from "@/lib/constants";
+
 interface PasswordStrengthMeterProps {
   password: string;
 }
@@ -5,7 +7,7 @@ interface PasswordStrengthMeterProps {
 const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({ password }) => {
   const getPasswordStrength = (password: string): number => {
     let strength = 0;
-    if (password.length >= 8) strength += 1;
+    if (password.length >= MIN_PASSWORD_LENGTH) strength += 1;
     if (password.match(/[a-z]+/)) strength += 1;
     if (password.match(/[A-Z]+/)) strength += 1;
     if (password.match(/[0-9]+/)) strength += 1;
@@ -19,17 +21,17 @@ const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({ password 
     switch (strength) {
       case 0:
       case 1:
-        return 'bg-red-500';
+        return COLOR_LABELS[1];
       case 2:
-        return 'bg-orange-500';
+        return COLOR_LABELS[2];
       case 3:
-        return 'bg-yellow-500';
+        return COLOR_LABELS[3];
       case 4:
-        return 'bg-green-300';
+        return COLOR_LABELS[4];
       case 5:
-        return 'bg-green-500';
+        return COLOR_LABELS[5];
       default:
-        return 'bg-gray-300';
+        return COLOR_LABELS[0];
     }
   };
 
@@ -37,15 +39,15 @@ const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({ password 
     switch (strength) {
       case 0:
       case 1:
-        return 'Very Weak';
+        return STRENGTH_LABELS[0];
       case 2:
-        return 'Weak';
+        return STRENGTH_LABELS[1];
       case 3:
-        return 'Fair';
+        return STRENGTH_LABELS[2];
       case 4:
-        return 'Strong';
+        return STRENGTH_LABELS[3];
       case 5:
-        return 'Very Strong';
+        return STRENGTH_LABELS[4];
       default:
         return '';
     }

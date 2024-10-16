@@ -36,18 +36,29 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String?    @unique
-  emailVerified DateTime?
-  password      String?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  tracks        Track[]
-  critiques     Critique[]
-  coins         Int        @default(0)
-  role          String?
+  id               String            @id @default(cuid())
+  name             String?
+  email            String?           @unique
+  emailVerified    DateTime?
+  password         String?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  tracks           Track[]
+  critiques        Critique[]
+  coins            Int               @default(100)
+  coinTransactions CoinTransaction[]
+  role             String?
+}
+
+model CoinTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  amount    Int
+  type      String // "EARN" or "SPEND"
+  reason    String
+  createdAt DateTime @default(now())
 }
 
 model VerificationToken {
@@ -61,12 +72,15 @@ model VerificationToken {
 model Track {
   id          String     @id @default(cuid())
   title       String
+  slug        String     @unique
   description String?
   url         String
   genre       String?
   userId      String
   user        User       @relation(fields: [userId], references: [id])
   critiques   Critique[]
+  requested   Boolean    @default(false)
+  requestedAt DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
