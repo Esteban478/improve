@@ -4,7 +4,7 @@ import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
 import { ExtendedCritique } from '@/types/index';
 import Link from 'next/link';
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 import { canEditCritique } from '@/lib/critique-utils';
 
 interface CritiqueItemProps {
@@ -30,6 +30,7 @@ const CritiqueItem: React.FC<CritiqueItemProps> = ({
 
   return (
     <div className="border p-4 rounded mb-4">
+      <h2 className="text-lg font-semibold mb-2">{critique.title || 'Untitled Critique'}</h2>
       <div className="flex items-center mb-2">
         <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={32} />
         <div className="ml-2">

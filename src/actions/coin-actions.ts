@@ -4,15 +4,15 @@ import { revalidatePath } from 'next/cache'
 import prisma from '@/lib/prisma'
 import { AuthorizationError } from '@/types/errors'
 
-export async function updateCoins(userId: string, amount: number, type: 'EARN' | 'SPEND', reason: string) {
+export async function updateCoins(userEmail: string, amount: number, type: 'EARN' | 'SPEND', reason: string) {
   // console.log(`Updating coins for user ${userId}: ${type} ${amount} coins for ${reason}`);
   
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { email: userEmail },
   })
 
   if (!user) {
-    console.error(`User not found for ID: ${userId}`);
+    console.error(`User not found for email: ${userEmail}`);
     throw new AuthorizationError('User not found')
   }
 
@@ -21,7 +21,7 @@ export async function updateCoins(userId: string, amount: number, type: 'EARN' |
   }
 
   const updatedUser = await prisma.user.update({
-    where: { id: userId },
+    where: { email: userEmail },
     data: {
       coins: type === 'EARN' ? { increment: amount } : { decrement: amount },
       coinTransactions: {

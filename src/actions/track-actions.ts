@@ -279,8 +279,8 @@ export async function submitTrack(formData: FormData) {
   return newTrack
 }
 
-export async function requestFeedback(trackId: string, userId: string) {
-  const user = await prisma.user.findUnique({ where: { id: userId } })
+export async function requestFeedback(trackId: string, userEmail: string) {
+  const user = await prisma.user.findUnique({ where: { email: userEmail } })
   if (!user) throw new AuthorizationError('User not found')
 
   if (user.coins < FEEDBACK_REQUEST_COST) {
@@ -292,11 +292,10 @@ export async function requestFeedback(trackId: string, userId: string) {
     data: { requested: true, requestedAt: new Date() },
   })
 
-  // Deduct coins for requesting feedback
-  await updateCoins(userId, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
+  await updateCoins(userEmail, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
 
-  revalidatePath(`/tracks/${trackId}`)
   revalidatePath('/dashboard')
+  revalidatePath('/')
 
   return updatedTrack
 }

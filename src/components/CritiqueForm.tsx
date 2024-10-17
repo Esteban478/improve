@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import ObjectiveCriteria from './ObjectiveCriteria'
 import SubjectiveCriteria from './SubjectiveCriteria'
 import OverallImpression from './OverallImpression'
@@ -22,15 +23,13 @@ interface FormDataState {
   [key: string]: string | number | null;
 }
 
-
-
 export default function CritiqueForm({ trackId, trackSlug, existingCritique }: CritiqueFormProps) {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<FormDataState>(() => {
     if (existingCritique) {
-      // Pre-fill form with existing critique data
       return {
+        title: existingCritique.title || '',
         mixingQuality: existingCritique.mixingQuality,
         tonalBalance: existingCritique.tonalBalance,
         masteringLoudness: existingCritique.masteringLoudness,
@@ -44,7 +43,6 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
         overallImpression: existingCritique.overallImpression,
       }
     }
-    // Initialize from localStorage if available, otherwise empty object
     if (typeof window !== 'undefined') {
       const savedData = localStorage.getItem(STORAGE_KEY);
       return savedData ? JSON.parse(savedData) : {};
@@ -57,7 +55,6 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
   const totalSteps = 3
 
   useEffect(() => {
-    // Save form data to localStorage whenever it changes
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
   }, [formData]);
 
@@ -99,8 +96,6 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
       submitData.append('trackId', trackId)
       submitData.append('userEmail', session.user.email)
 
-      // console.log('Submitting data:', Object.fromEntries(submitData))
-
       if (existingCritique) {
         submitData.append('critiqueId', existingCritique.id)
         await updateCritique(submitData)
@@ -108,13 +103,9 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
         await submitCritique(submitData)
       }
 
-      // Clear localStorage after successful submission
       localStorage.removeItem(STORAGE_KEY);
 
-      // Use router.refresh() to trigger a re-fetch of the data
       router.refresh();
-
-      // Navigate to the track page
       router.push(`/tracks/${trackSlug}`);
     } catch (error: unknown) {
       console.error('Error submitting critique:', error)
@@ -135,7 +126,19 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
       case 2:
         return <SubjectiveCriteria formData={formData} onChange={handleChange} />
       case 3:
-        return <OverallImpression formData={formData} onChange={handleChange} />
+        return (
+          <>
+            <h3 className="text-xl font-semibold mb-4">Feedback title</h3>
+            <Input
+              type="text"
+              placeholder="Enter critique title"
+              value={formData.title as string || ''}
+              onChange={(e) => handleChange('title', e.target.value)}
+              className="mb-4"
+            />
+            <OverallImpression formData={formData} onChange={handleChange} />
+          </>
+        )
       default:
         return null
     }

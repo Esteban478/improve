@@ -10,6 +10,22 @@ function extractTitleFromUrl(url: string): string {
   return parts[parts.length - 1].replace(/-/g, ' ').replace(/^\d+/, '').trim()
 }
 
+function generateCritiqueTitle(): string {
+  const adjectives = [
+    'Energetic', 'Mellow', 'Uplifting', 'Atmospheric', 'Groovy',
+    'Haunting', 'Powerful', 'Soothing', 'Intense', 'Dreamy',
+    'Hypnotic', 'Quirky', 'Nostalgic', 'Futuristic', 'Raw'
+  ];
+  const nouns = [
+    'Beats', 'Melodies', 'Rhythms', 'Soundscape', 'Composition',
+    'Journey', 'Vibes', 'Harmony', 'Textures', 'Groove',
+    'Arrangement', 'Production', 'Mix', 'Atmosphere', 'Experience'
+    ];
+  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  return `${randomAdjective} ${randomNoun}`;
+}
+
 async function main() {
   // Clear existing data
   await prisma.coinTransaction.deleteMany()
@@ -56,18 +72,20 @@ async function main() {
     })
   )
 
-  // Create critiques
+  // Create critiques with generated titles
   const critiques = await Promise.all(
     tracks.flatMap((track) =>
       users
         .filter(user => user.id !== track.userId) // Users can't critique their own tracks
-        .slice(0, Math.floor(Math.random() * 3) + 1) // Random number of critiques (1-3) per track
+        .slice(0, Math.floor(Math.random() * 5) + 1) // Random number of critiques (1-3) per track
         .map(user => {
           const sampleCritique = SAMPLE_CRITIQUES[Math.floor(Math.random() * SAMPLE_CRITIQUES.length)]
+          const randomTitle = generateCritiqueTitle()
           return prisma.critique.create({
             data: {
               trackId: track.id,
               userId: user.id,
+              title: randomTitle,
               ...sampleCritique,
             }
           })

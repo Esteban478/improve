@@ -7,7 +7,7 @@ interface OverallImpressionProps {
 
 const OverallImpression: React.FC<OverallImpressionProps> = ({ formData, onChange }) => {
   return (
-    <div>
+    <>
       <h3 className="text-xl font-semibold mb-4">Overall Impression</h3>
       <CharacterCounterInput
         maxLength={1000}
@@ -16,7 +16,7 @@ const OverallImpression: React.FC<OverallImpressionProps> = ({ formData, onChang
         value={formData['overallImpression'] as string || ''}
         onChange={(value) => onChange('overallImpression', value)}
       />
-    </div>
+    </>
   );
 };
 

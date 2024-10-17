@@ -101,8 +101,8 @@ export async function getUserCritiqueForTrack(userEmail: string, trackId: string
   return critique as ExtendedCritique | null
 }
 
-export async function requestFeedback(trackId: string, userId: string) {
-  const user = await prisma.user.findUnique({ where: { id: userId } })
+export async function requestFeedback(trackId: string, userEmail: string) {
+  const user = await prisma.user.findUnique({ where: { email: userEmail } })
   if (!user) throw new AuthorizationError('User not found')
 
   if (user.coins < FEEDBACK_REQUEST_COST) {
@@ -115,7 +115,7 @@ export async function requestFeedback(trackId: string, userId: string) {
   })
 
   // Deduct coins for requesting feedback
-  await updateCoins(userId, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
+  await updateCoins(userEmail, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
 
   revalidatePath(`/tracks/${trackId}`)
   revalidatePath('/dashboard')
@@ -137,6 +137,7 @@ export async function submitCritique(formData: FormData) {
     const imagery = formData.get('imagery') as string
     const standoutElements = formData.get('standoutElements') as string
     const genreFit = formData.get('genreFit') as string
+    const title = formData.get('title') as string
     const overallImpression = formData.get('overallImpression') as string
 
     // console.log('Submitting critique with data:', {
@@ -175,11 +176,12 @@ export async function submitCritique(formData: FormData) {
         imagery,
         standoutElements,
         genreFit,
+        title,
         overallImpression,
       },
     })
 
-    await updateCoins(user.id, CRITIQUE_REWARD, 'EARN', 'Submitted critique')
+    await updateCoins(userEmail, CRITIQUE_REWARD, 'EARN', 'Submitted critique')
     revalidatePath(`/tracks/${slug}`)
     
     return newCritique
@@ -207,6 +209,7 @@ export async function updateCritique(formData: FormData) {
   const imagery = formData.get('imagery') as string
   const standoutElements = formData.get('standoutElements') as string
   const genreFit = formData.get('genreFit') as string
+  const title = formData.get('title') as string
   const overallImpression = formData.get('overallImpression') as string
 
   if (!critiqueId || !userEmail || !overallImpression) {
@@ -234,6 +237,7 @@ export async function updateCritique(formData: FormData) {
         imagery,
         standoutElements,
         genreFit,
+        title,
         overallImpression,
       },
     })

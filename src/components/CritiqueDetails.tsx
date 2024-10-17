@@ -25,8 +25,7 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
   return (
     
       <div className="mx-auto p-6 bg-white shadow-lg rounded-lg">
-        {/* <h1 className="text-2xl font-bold mb-4">{critique.title || 'Critique'}</h1> */} 
-        <h1 className="text-2xl font-bold mb-4">Great Track - REPLACE_WITH_TITLE</h1>
+        <h1 className="text-2xl font-bold mb-4">{critique.title || 'Critique'}</h1> 
         <div className="flex items-center mb-4">
         <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={48} />
         <div className="ml-4">

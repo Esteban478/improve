@@ -92,6 +92,7 @@ model Critique {
   id                String    @id @default(cuid())
   trackId           String
   userId            String
+  title             String    @default("")
   mixingQuality     Int?
   tonalBalance      Int?
   masteringLoudness Int?
