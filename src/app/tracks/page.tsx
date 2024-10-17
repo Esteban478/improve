@@ -1,3 +1,4 @@
+import { getServerSession } from "next-auth/next";
 import { Suspense } from 'react'
 import TrackDisplay from '@/components/TrackDisplay'
 import LoadMore from '@/components/LoadMore'
@@ -7,6 +8,7 @@ import { catchErrorTyped } from '@/lib/utils'
 import ErrorDisplay from '@/components/ErrorDisplay'
 
 export default async function TracksPage({ searchParams }: { searchParams: { search?: string, genre?: string, page?: string, take?: string } }) {
+  const session = await getServerSession();
   const [tracksError, tracks] = await catchErrorTyped(getTracks(searchParams))
   const [feedbackTracksError, feedbackTracks] = await catchErrorTyped(getTracksNeedingFeedback(5))
   
@@ -33,6 +35,8 @@ export default async function TracksPage({ searchParams }: { searchParams: { sea
                 isListingPage={true} 
                 isCritiquePage={false}
                 showFeedbackRequest={false}
+                isTrackOwner={track.user.email === session?.user?.email}
+                currentUserEmail={session?.user?.email || null}
               />
             ))}
           </div>
@@ -55,6 +59,8 @@ export default async function TracksPage({ searchParams }: { searchParams: { sea
                 isListingPage={true} 
                 isCritiquePage={false}
                 showFeedbackRequest={true}
+                isTrackOwner={track.user.email === session?.user?.email}
+                currentUserEmail={session?.user?.email || null}
               />
             ))}
           </div>

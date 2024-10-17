@@ -5,26 +5,35 @@ import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import UserAvatar from './UserAvatar'
 import { getUserCoins } from '@/actions/coin-actions'
+import { catchErrorTyped } from '@/lib/utils'
+
+function CoinDisplay({ email }: { email: string }) {
+  const [coins, setCoins] = useState<number | null>(null)
+
+  useEffect(() => {
+    async function fetchCoins() {
+      const [error, userCoins] = await catchErrorTyped(getUserCoins(email))
+      if (error) {
+        console.error('Failed to fetch user coins:', error)
+        setCoins(0)
+      } else {
+        setCoins(userCoins || 0)
+      }
+    }
+    fetchCoins()
+  }, [email])
+
+  if (coins === null) {
+    return <span className="text-yellow-400">Loading...</span>
+  }
+
+  return <span className="text-yellow-400">{coins} coins</span>
+}
 
 export default function UserAccount() {
   const { data: session, status } = useSession()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [coins, setCoins] = useState<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    async function fetchCoins() {
-      if (session?.user?.email) {
-        try {
-          const userCoins = await getUserCoins(session.user.email)
-          setCoins(userCoins)
-        } catch (error) {
-          console.error('Failed to fetch user coins:', error)
-        }
-      }
-    }
-    fetchCoins()
-  }, [session])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -64,7 +73,7 @@ export default function UserAccount() {
       >
         <UserAvatar src={session.user?.image} alt={session.user?.name || 'User'} size={32} />
         <span>{session.user?.name}</span>
-        {coins !== null && <span className="text-yellow-400">{coins} coins</span>}
+        {session.user?.email && <CoinDisplay email={session.user.email} />}
       </button>
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">

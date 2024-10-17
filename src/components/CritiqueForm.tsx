@@ -10,7 +10,6 @@ import SubjectiveCriteria from './SubjectiveCriteria'
 import OverallImpression from './OverallImpression'
 import { submitCritique, updateCritique } from '@/actions/critique-actions'
 import { ExtendedCritique } from '@/types/index'
-import { revalidatePath } from 'next/cache'
 import { STORAGE_KEY } from '@/lib/constants'
 
 interface CritiqueFormProps {
@@ -99,7 +98,7 @@ export default function CritiqueForm({ trackId, existingCritique }: CritiqueForm
       submitData.append('trackId', trackId)
       submitData.append('userEmail', session.user.email)
 
-      console.log('Submitting data:', Object.fromEntries(submitData))
+      // console.log('Submitting data:', Object.fromEntries(submitData))
 
       if (existingCritique) {
         submitData.append('critiqueId', existingCritique.id)

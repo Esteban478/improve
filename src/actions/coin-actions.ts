@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 import { AuthorizationError } from '@/types/errors'
 
 export async function updateCoins(userId: string, amount: number, type: 'EARN' | 'SPEND', reason: string) {
-  console.log(`Updating coins for user ${userId}: ${type} ${amount} coins for ${reason}`);
+  // console.log(`Updating coins for user ${userId}: ${type} ${amount} coins for ${reason}`);
   
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -34,7 +34,7 @@ export async function updateCoins(userId: string, amount: number, type: 'EARN' |
     },
   })
 
-  console.log(`Updated coins for user ${userId}: new balance ${updatedUser.coins}`);
+  // console.log(`Updated coins for user ${userId}: new balance ${updatedUser.coins}`);
 
   revalidatePath('/dashboard')
   revalidatePath('/profile')
@@ -42,9 +42,9 @@ export async function updateCoins(userId: string, amount: number, type: 'EARN' |
   return updatedUser.coins
 }
 
-export async function getUserCoins(userId: string) {
+export async function getUserCoins(email: string): Promise<number> {
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { email },
     select: { coins: true },
   })
 

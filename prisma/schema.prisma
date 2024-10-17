@@ -36,19 +36,22 @@ model Session {
 }
 
 model User {
-  id               String            @id @default(cuid())
-  name             String?
-  email            String?           @unique
-  emailVerified    DateTime?
-  password         String?
-  image            String?
-  accounts         Account[]
-  sessions         Session[]
-  tracks           Track[]
-  critiques        Critique[]
-  coins            Int               @default(100)
-  coinTransactions CoinTransaction[]
-  role             String?
+  id                   String            @id @default(cuid())
+  name                 String?
+  email                String?           @unique
+  emailVerified        DateTime?
+  password             String?
+  image                String?
+  accounts             Account[]
+  sessions             Session[]
+  tracks               Track[]
+  critiques            Critique[]
+  coins                Int               @default(100)
+  coinTransactions     CoinTransaction[]
+  role                 String?
+  totalCritiquesGiven  Int               @default(0)
+  totalRatingsReceived Int               @default(0)
+  sumOfRatingsReceived Int               @default(0)
 }
 
 model CoinTransaction {
@@ -86,22 +89,25 @@ model Track {
 }
 
 model Critique {
-  id                String   @id @default(cuid())
+  id                String    @id @default(cuid())
   trackId           String
   userId            String
-  mixingQuality     Int? // 1-10 or null for "Not sure"
-  tonalBalance      Int? // 1-10 or null for "Not sure"
-  masteringLoudness Int? // 1-10 or null for "Not sure"
-  soundDesign       Int? // 1-10 or null for "Not sure"
-  arrangement       Int? // 1-10 or null for "Not sure"
+  mixingQuality     Int?
+  tonalBalance      Int?
+  masteringLoudness Int?
+  soundDesign       Int?
+  arrangement       Int?
   technicalSummary  String?
   emotionalResponse String
   imagery           String
   standoutElements  String
   genreFit          String
   overallImpression String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  track             Track    @relation(fields: [trackId], references: [id])
-  user              User     @relation(fields: [userId], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  track             Track     @relation(fields: [trackId], references: [id])
+  user              User      @relation(fields: [userId], references: [id])
+  rating            Int?
+  ratedAt           DateTime?
+  ratedBy           String?
 }

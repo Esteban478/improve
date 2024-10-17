@@ -47,7 +47,7 @@ export async function getTrackById(id: string): Promise<TrackWithCritiques | nul
 }
 
 export async function getTrackBySlug(slug: string): Promise<TrackWithCritiques | null> {
-  console.log('Fetching track with slug:', slug); // Add this line
+  // console.log('Fetching track with slug:', slug);
 
   const track = await prisma.track.findUnique({
     where: { slug },
@@ -82,7 +82,7 @@ export async function getTrackBySlug(slug: string): Promise<TrackWithCritiques |
     },
   })
 
-  console.log('Found track:', track); // Add this line
+  // console.log('Found track:', track);
 
   return track as TrackWithCritiques | null
 }

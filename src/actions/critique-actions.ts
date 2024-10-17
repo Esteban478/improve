@@ -3,7 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import prisma from '@/lib/prisma'
 import { updateCoins } from './coin-actions'
-import { AuthorizationError } from '../types/errors'
+import { AuthorizationError, NotFoundError } from '../types/errors'
+import { ExtendedCritique } from '../types'
 
 const CRITIQUE_REWARD = 1
 const FEEDBACK_REQUEST_COST = 3
@@ -40,6 +41,63 @@ export async function getTracksNeedingFeedback(limit: number = 10) {
   return tracks
 }
 
+export async function getCritiqueById(id: string): Promise<ExtendedCritique | null> {
+  const critique = await prisma.critique.findUnique({
+    where: { id },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+      track: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+        },
+      },
+    },
+  })
+
+  if (!critique) {
+    throw new NotFoundError('Critique not found')
+  }
+
+  return critique as ExtendedCritique
+}
+
+export async function getUserCritiqueForTrack(userEmail: string, trackId: string): Promise<ExtendedCritique | null> {
+  const critique = await prisma.critique.findFirst({
+    where: {
+      trackId: trackId,
+      user: { email: userEmail },
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+      track: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+        },
+      },
+    },
+  })
+
+  return critique as ExtendedCritique | null
+}
+
 export async function requestFeedback(trackId: string, userId: string) {
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) throw new AuthorizationError('User not found')
@@ -61,7 +119,6 @@ export async function requestFeedback(trackId: string, userId: string) {
 
   return updatedTrack
 }
-
 export async function submitCritique(formData: FormData) {
   try {
     const trackId = formData.get('trackId') as string
@@ -79,11 +136,11 @@ export async function submitCritique(formData: FormData) {
     const genreFit = formData.get('genreFit') as string
     const overallImpression = formData.get('overallImpression') as string
 
-    console.log('Submitting critique with data:', {
-      trackId, userEmail, mixingQuality, tonalBalance, masteringLoudness,
-      soundDesign, arrangement, technicalSummary, emotionalResponse,
-      imagery, standoutElements, genreFit, overallImpression
-    })
+    // console.log('Submitting critique with data:', {
+    //   trackId, userEmail, mixingQuality, tonalBalance, masteringLoudness,
+    //   soundDesign, arrangement, technicalSummary, emotionalResponse,
+    //   imagery, standoutElements, genreFit, overallImpression
+    // })
 
     if (!trackId || !userEmail || !overallImpression) {
       throw new Error('Missing required fields')
@@ -93,8 +150,8 @@ export async function submitCritique(formData: FormData) {
       where: { email: userEmail },
     })
 
-    console.log('User email:', userEmail);
-    console.log('User object:', user);
+    // console.log('User email:', userEmail);
+    // console.log('User object:', user);
 
     if (!user) {
       console.error('User not found for email:', userEmail);
@@ -134,7 +191,6 @@ export async function submitCritique(formData: FormData) {
     throw error
   }
 }
-
 export async function updateCritique(formData: FormData) {
   try {
   const critiqueId = formData.get('critiqueId') as string

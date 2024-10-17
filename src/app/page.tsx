@@ -1,8 +1,10 @@
+import { getServerSession } from "next-auth/next";
 import { getTracksNeedingFeedback } from '@/actions/critique-actions'
 import TrackDisplay from "@/components/TrackDisplay"
 import ErrorDisplay from '@/components/ErrorDisplay'
 
 export default async function Home() {
+  const session = await getServerSession();
   const tracks = await getTracksNeedingFeedback(5)  // Get 5 tracks needing feedback
 
   return (
@@ -17,6 +19,8 @@ export default async function Home() {
               isListingPage={true} 
               isCritiquePage={false} 
               showFeedbackRequest={false}
+              isTrackOwner={track.user.email === session?.user?.email}
+              currentUserEmail={session?.user?.email || null}
             />
           ))}
         </div>
