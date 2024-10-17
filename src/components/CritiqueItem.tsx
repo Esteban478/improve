@@ -1,38 +1,45 @@
-'use client';
 import React from 'react';
-import { StarIcon } from 'lucide-react';
+import { StarIcon, PenIcon, EyeIcon } from 'lucide-react';
 import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
 import { ExtendedCritique } from '@/types/index';
 import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { canEditCritique } from '@/lib/critique-utils';
 
 interface CritiqueItemProps {
   critique: ExtendedCritique;
   isTrackOwner: boolean;
   currentUserEmail: string | null;
-  onRateClick?: () => void;
-  onEditClick?: () => void;
+  trackSlug: string;
 }
 
 const CritiqueItem: React.FC<CritiqueItemProps> = ({ 
   critique, 
   isTrackOwner, 
-  currentUserEmail, 
-  onRateClick, 
-  onEditClick 
+  currentUserEmail,
+  trackSlug
 }) => {
   const truncate = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     return text.substr(0, maxLength - 3) + '...';
   };
 
+  const canEdit = canEditCritique(currentUserEmail, critique);
+  const canRate = isTrackOwner && critique.rating === null;
+
   return (
     <div className="border p-4 rounded mb-4">
       <div className="flex items-center mb-2">
         <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={32} />
         <div className="ml-2">
-          <p className="font-semibold">{critique.user.name}</p>
-          <p className="text-sm text-gray-500">{new Date(critique.createdAt).toLocaleDateString()}</p>
+          <p className="font-semibold">
+            {critique.user.name} 
+            <span className="text-sm text-gray-500 ml-2">({critique.user.role || 'User'})</span>
+          </p>
+          <p className="text-xs text-gray-500">
+            {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
+          </p>
         </div>
       </div>
       <p className="mb-2">{truncate(critique.overallImpression, 200)}</p>
@@ -47,18 +54,29 @@ const CritiqueItem: React.FC<CritiqueItemProps> = ({
               />
             ))}
           </div>
-        ) : isTrackOwner ? (
-          <Button onClick={onRateClick} variant="outline" size="sm">
-            Rate this critique
-          </Button>
+        ) : canRate ? (
+          <Link href={`/critique/${trackSlug}/${critique.id}/rate`} passHref>
+            <Button variant="outline" size="sm">
+              <StarIcon className="mr-2" size={16} />
+              Rate
+            </Button>
+          </Link>
         ) : null}
-        {critique.user.email === currentUserEmail && (
-          <Button onClick={onEditClick} variant="outline" size="sm">
-            Edit
-          </Button>
+        
+        {canEdit && (
+          <Link href={`/critique/${trackSlug}/${critique.id}/edit`} passHref>
+            <Button variant="outline" size="sm">
+              <PenIcon className="mr-2" size={16} />
+              Edit
+            </Button>
+          </Link>
         )}
-        <Link href={`/critique/${critique.trackId}/${critique.id}`} passHref>
-          <Button variant="outline" size="sm">View Full Critique</Button>
+        
+        <Link href={`/critique/${trackSlug}/${critique.id}`} passHref>
+          <Button variant="outline" size="sm">
+            <EyeIcon className="mr-2" size={16} />
+            View Full Critique
+          </Button>
         </Link>
       </div>
     </div>

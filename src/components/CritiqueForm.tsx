@@ -14,6 +14,7 @@ import { STORAGE_KEY } from '@/lib/constants'
 
 interface CritiqueFormProps {
   trackId: string
+  trackSlug: string
   existingCritique?: ExtendedCritique
 }
 
@@ -23,7 +24,7 @@ interface FormDataState {
 
 
 
-export default function CritiqueForm({ trackId, existingCritique }: CritiqueFormProps) {
+export default function CritiqueForm({ trackId, trackSlug, existingCritique }: CritiqueFormProps) {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<FormDataState>(() => {
@@ -113,8 +114,8 @@ export default function CritiqueForm({ trackId, existingCritique }: CritiqueForm
       // Use router.refresh() to trigger a re-fetch of the data
       router.refresh();
 
-      // Navigate to the dashboard
-      router.push('/dashboard');
+      // Navigate to the track page
+      router.push(`/tracks/${trackSlug}`);
     } catch (error: unknown) {
       console.error('Error submitting critique:', error)
       if (error instanceof Error) {

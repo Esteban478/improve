@@ -40,6 +40,7 @@ export default async function TrackPage({ params }: { params: { slug: string } }
             critiques={track.critiques}
             isTrackOwner={isTrackOwner}
             currentUserEmail={session?.user?.email || null}
+            trackSlug={params.slug}
           />
         ) : (
           <ErrorDisplay 

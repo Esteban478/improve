@@ -35,7 +35,7 @@ export default async function EditCritiquePage({ params }: { params: { slug: str
         isTrackOwner={track.user.email === session.user.email}
         currentUserEmail={session.user.email}
       />
-      <CritiqueForm trackId={track.id} existingCritique={userCritique} />
+      <CritiqueForm trackId={track.id} trackSlug={track.slug} existingCritique={userCritique} />
     </div>
   );
 }

@@ -8,22 +8,24 @@ interface CritiqueListProps {
   critiques: ExtendedCritique[];
   isTrackOwner: boolean;
   currentUserEmail: string | null;
+  trackSlug: string;
 }
 
 const CritiqueList: React.FC<CritiqueListProps> = ({
   critiques,
   isTrackOwner,
   currentUserEmail,
+  trackSlug
 }) => {
-  const handleRateClick = (critiqueId: string) => {
-    // Implement rate logic here
-    console.log(`Rate critique: ${critiqueId}`);
-  };
+  // const handleRateClick = (critiqueId: string) => {
+  //   // Implement rate logic here
+  //   console.log(`Rate critique: ${critiqueId}`);
+  // };
 
-  const handleEditClick = (critiqueId: string) => {
-    // Implement edit logic here
-    console.log(`Edit critique: ${critiqueId}`);
-  };
+  // const handleEditClick = (critiqueId: string) => {
+  //   // Implement edit logic here
+  //   console.log(`Edit critique: ${critiqueId}`);
+  // };
 
   return (
     <div>
@@ -33,8 +35,9 @@ const CritiqueList: React.FC<CritiqueListProps> = ({
           critique={critique}
           isTrackOwner={isTrackOwner}
           currentUserEmail={currentUserEmail}
-          onRateClick={() => handleRateClick(critique.id)}
-          onEditClick={() => handleEditClick(critique.id)}
+          trackSlug={trackSlug}
+          // onRateClick={() => handleRateClick(critique.id)}
+          // onEditClick={() => handleEditClick(critique.id)}
         />
       ))}
     </div>

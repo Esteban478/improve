@@ -197,6 +197,7 @@ export async function getTrackForCritique(trackId: string): Promise<TrackWithCri
             name: true,
             email: true,
             image: true,
+            role: true,
           },
         },
         critiques: {
@@ -207,6 +208,7 @@ export async function getTrackForCritique(trackId: string): Promise<TrackWithCri
                 name: true,
                 email: true,
                 image: true,
+                role: true,
               },
             },
           },

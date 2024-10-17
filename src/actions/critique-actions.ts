@@ -21,6 +21,7 @@ export async function getTracksNeedingFeedback(limit: number = 10) {
           name: true,
           email: true,
           image: true,
+          role: true,
         },
       },
       critiques: {
@@ -31,6 +32,7 @@ export async function getTracksNeedingFeedback(limit: number = 10) {
               name: true,
               email: true,
               image: true,
+              role: true,
             },
           },
         },
@@ -51,6 +53,7 @@ export async function getCritiqueById(id: string): Promise<ExtendedCritique | nu
           name: true,
           email: true,
           image: true,
+          role: true,
         },
       },
       track: {
@@ -178,8 +181,7 @@ export async function submitCritique(formData: FormData) {
 
     await updateCoins(user.id, CRITIQUE_REWARD, 'EARN', 'Submitted critique')
     revalidatePath(`/tracks/${slug}`)
-    revalidatePath('/dashboard')
-
+    
     return newCritique
   } catch (error: unknown) {
     console.error('Error in submitCritique:', error)

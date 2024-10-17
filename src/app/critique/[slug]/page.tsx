@@ -34,8 +34,8 @@ export default async function CritiquePage({ params }: { params: { slug: string 
         currentUserEmail={session.user.email}
       />
       
-      {!userCritique && <CritiqueForm trackId={track.id} />}
-      {userCritique && canEdit && <CritiqueForm trackId={track.id} existingCritique={userCritique} />}
+      {!userCritique && <CritiqueForm trackId={track.id} trackSlug={track.slug} />}
+      {userCritique && canEdit && <CritiqueForm trackId={track.id} trackSlug={track.slug} existingCritique={userCritique} />}
       {userCritique && !canEdit && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Your Critique</h2>
