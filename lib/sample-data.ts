@@ -1,6 +1,6 @@
 export const SAMPLE_USER_NAMES = [
   "Hadi", "Robert", "Stefan", "Raúl", "Emily",
-  "Jost", "Lucas", "Killian", "Muay-ad"
+  "Jost", "Lucas", "Killian", "Muayad"
 ];
 
 export const SAMPLE_USER_ROLES = [

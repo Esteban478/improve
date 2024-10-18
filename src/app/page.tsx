@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { getTracksNeedingFeedback } from '@/actions/critique-actions'
 import TrackDisplay from "@/components/TrackDisplay"
 import ErrorDisplay from '@/components/ErrorDisplay'
+import IntroductionDisplay from "@/components/IntroductionDisplay"
 
 export default async function Home() {
   const session = await getServerSession();
@@ -9,7 +10,8 @@ export default async function Home() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Tracks Needing Feedback</h1>
+      <IntroductionDisplay />
+      <h2 className="text-3xl font-bold mb-6">Tracks Needing Feedback</h2>
       {tracks.length > 0 ? (
         <div className="space-y-8">
           {tracks.map((track) => (

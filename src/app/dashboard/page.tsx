@@ -20,6 +20,9 @@ async function UserProfile({ email }: { email: string }) {
           <h1 className="text-2xl font-bold">{user.name}</h1>
           <p className="text-gray-600">{user.email}</p>
           <p className="text-yellow-600">{user.coins} coins</p>
+          {user.averageRating !== null && (
+            <p className="text-gray-800">Average Rating: {user.averageRating.toFixed(2)}</p>
+          )}
         </div>
       </div>
     </div>
@@ -83,6 +86,7 @@ async function UserCritiques({ email }: { email: string }) {
                 trackSlug={critique.track.slug}
                 createdAt={critique.createdAt}
                 rating={critique.rating}
+                isTrackOwner={false}
               />
             ))
           ) : (
@@ -101,6 +105,7 @@ async function UserCritiques({ email }: { email: string }) {
                 trackSlug={critique.track.slug}
                 createdAt={critique.createdAt}
                 rating={critique.rating}
+                isTrackOwner={true}
               />
             ))
           ) : (

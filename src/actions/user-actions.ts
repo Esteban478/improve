@@ -6,7 +6,16 @@ export async function getUserProfile(email: string) {
   const [error, user] = await catchErrorTyped(
     prisma.user.findUnique({
       where: { email },
-      select: { name: true, email: true, image: true, coins: true },
+      select: { 
+        name: true, 
+        email: true, 
+        image: true, 
+        coins: true, 
+        averageRating: true,
+        totalCritiquesGiven: true,
+        totalRatingsReceived: true,
+        sumOfRatingsReceived: true
+      },
     })
   )
 
@@ -93,4 +102,28 @@ export async function getUserReceivedCritiques(email: string): Promise<CritiqueW
   }
 
   return critiques as CritiqueWithTrack[]
+}
+
+export async function updateUserStatistics(userId: string, newRating: number) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { averageRating: true, totalCritiquesGiven: true }
+  });
+
+  if (!user) throw new Error("User not found");
+
+  const totalRatings = user.totalCritiquesGiven + 1;
+  const newAverageRating = user.averageRating 
+    ? (user.averageRating * user.totalCritiquesGiven + newRating) / totalRatings
+    : newRating;
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { 
+      averageRating: newAverageRating,
+      totalCritiquesGiven: { increment: 1 }
+    }
+  });
+
+  return newAverageRating;
 }

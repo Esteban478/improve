@@ -72,6 +72,11 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({
             <Button variant="default">View Track</Button>
           </Link>
         )}
+        {isCritiquePage && (
+          <Link href={`/tracks/${track.slug}`} passHref>
+            <Button variant="default">Back to Track</Button>
+          </Link>
+        )}
         {!isCritiquePage && renderCritiqueButton()}
         {showFeedbackRequest && isTrackOwner && !track.requested && (
           <Button variant="outline" onClick={handleRequestFeedback}>

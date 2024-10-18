@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Progress } from '@/components/ui/progress'
@@ -12,6 +12,7 @@ import OverallImpression from './OverallImpression'
 import { submitCritique, updateCritique } from '@/actions/critique-actions'
 import { ExtendedCritique } from '@/types/index'
 import { STORAGE_KEY } from '@/lib/constants'
+import Link from 'next/link'
 
 interface CritiqueFormProps {
   trackId: string
@@ -146,6 +147,11 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="mb-4">
+        <Link href="/how-to-critique#how-to-give-good-feedback" className="text-blue-500 hover:underline">
+          Learn how to give constructive critique
+        </Link>
+      </div>
       <Progress value={(step / totalSteps) * 100} className="mb-4" />
       <h2 className="text-2xl font-bold mb-4">Step {step} of {totalSteps}</h2>
       <form onSubmit={handleSubmit}>

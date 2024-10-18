@@ -82,8 +82,6 @@ export async function getTrackBySlug(slug: string): Promise<TrackWithCritiques |
     },
   })
 
-  // console.log('Found track:', track);
-
   return track as TrackWithCritiques | null
 }
 

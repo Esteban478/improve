@@ -52,6 +52,7 @@ model User {
   totalCritiquesGiven  Int               @default(0)
   totalRatingsReceived Int               @default(0)
   sumOfRatingsReceived Int               @default(0)
+  averageRating        Float?            @default(0)
 }
 
 model CoinTransaction {

@@ -1,11 +1,11 @@
-import React from 'react';
-import { StarIcon, PenIcon, EyeIcon } from 'lucide-react';
+import { PenIcon, EyeIcon } from 'lucide-react';
 import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
 import { ExtendedCritique } from '@/types/index';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 import { canEditCritique } from '@/lib/critique-utils';
+import RatingPopover from './RatingPopover';
 
 interface CritiqueItemProps {
   critique: ExtendedCritique;
@@ -26,7 +26,6 @@ const CritiqueItem: React.FC<CritiqueItemProps> = ({
   };
 
   const canEdit = canEditCritique(currentUserEmail, critique);
-  const canRate = isTrackOwner && critique.rating === null;
 
   return (
     <div className="border p-4 rounded mb-4">
@@ -45,24 +44,9 @@ const CritiqueItem: React.FC<CritiqueItemProps> = ({
       </div>
       <p className="mb-2">{truncate(critique.overallImpression, 200)}</p>
       <div className="flex items-center space-x-2 mt-2">
-        {critique.rating !== null ? (
-          <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <StarIcon
-                key={i}
-                className={i < critique.rating! ? "text-yellow-400" : "text-gray-300"}
-                size={16}
-              />
-            ))}
-          </div>
-        ) : canRate ? (
-          <Link href={`/critique/${trackSlug}/${critique.id}/rate`} passHref>
-            <Button variant="outline" size="sm">
-              <StarIcon className="mr-2" size={16} />
-              Rate
-            </Button>
-          </Link>
-        ) : null}
+        {isTrackOwner && (
+          <RatingPopover critiqueId={critique.id} existingRating={critique.rating} />
+        )}
         
         {canEdit && (
           <Link href={`/critique/${trackSlug}/${critique.id}/edit`} passHref>

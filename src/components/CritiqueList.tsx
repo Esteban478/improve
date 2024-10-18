@@ -17,15 +17,6 @@ const CritiqueList: React.FC<CritiqueListProps> = ({
   currentUserEmail,
   trackSlug
 }) => {
-  // const handleRateClick = (critiqueId: string) => {
-  //   // Implement rate logic here
-  //   console.log(`Rate critique: ${critiqueId}`);
-  // };
-
-  // const handleEditClick = (critiqueId: string) => {
-  //   // Implement edit logic here
-  //   console.log(`Edit critique: ${critiqueId}`);
-  // };
 
   return (
     <div>
@@ -36,8 +27,6 @@ const CritiqueList: React.FC<CritiqueListProps> = ({
           isTrackOwner={isTrackOwner}
           currentUserEmail={currentUserEmail}
           trackSlug={trackSlug}
-          // onRateClick={() => handleRateClick(critique.id)}
-          // onEditClick={() => handleEditClick(critique.id)}
         />
       ))}
     </div>

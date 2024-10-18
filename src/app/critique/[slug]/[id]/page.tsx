@@ -29,7 +29,7 @@ export default async function SingleCritiquePage({ params }: { params: { slug: s
         <TrackDisplay
           track={track}
           isListingPage={false}
-          isCritiquePage={false}
+          isCritiquePage={true}
           showFeedbackRequest={false}
           isTrackOwner={isTrackOwner}
           currentUserEmail={session?.user?.email || null}

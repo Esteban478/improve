@@ -1,10 +1,10 @@
-import React from 'react';
 import { CritiqueWithTrack } from '@/types/index';
 import UserAvatar from './UserAvatar';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { canEditCritique } from '@/lib/critique-utils';
+import RatingPopover from './RatingPopover';
 
 interface CritiqueDetailsProps {
     critique: CritiqueWithTrack;
@@ -23,10 +23,14 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
   ];
 
   return (
-    
-      <div className="mx-auto p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold mb-4">{critique.title || 'Critique'}</h1> 
-        <div className="flex items-center mb-4">
+    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">{critique.title || 'Critique'}</h1>
+        {isTrackOwner && (
+          <RatingPopover critiqueId={critique.id} existingRating={critique.rating} />
+        )}
+      </div>
+      <div className="flex items-center mb-4">
         <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={48} />
         <div className="ml-4">
           <h2 className="text-xl font-bold">{critique.user.name}</h2>
@@ -34,19 +38,14 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
             {critique.user.role} • {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
           </p>
         </div>
-        <div className="mt-6 flex justify-end space-x-4">
+      </div>
+      <div className="mt-6 flex justify-end space-x-4">
         {canEditCritique(currentUserEmail, critique) && (
           <Link href={`/critique/${critique.track.slug}/${critique.id}/edit`} passHref>
             <Button variant="outline">Edit Critique</Button>
           </Link>
         )}
-        {isTrackOwner && critique.rating === null && (
-          <Link href={`/critique/${critique.track.slug}/${critique.id}/rate`} passHref>
-            <Button variant="outline">Rate Critique</Button>
-          </Link>
-        )}
       </div>
-    </div>
       
       <div className="mb-8">
         <h3 className="text-xl font-semibold mb-2">Overall Impression</h3>

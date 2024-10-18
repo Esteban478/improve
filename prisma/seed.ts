@@ -26,6 +26,17 @@ function generateCritiqueTitle(): string {
   return `${randomAdjective} ${randomNoun}`;
 }
 
+function generateRandomRating(): { rating: number | null, ratedAt: Date | null, ratedBy: string | null } {
+  if (Math.random() < 0.7) { // 70% chance of having a rating
+    return {
+      rating: Math.floor(Math.random() * 5) + 1,
+      ratedAt: new Date(),
+      ratedBy: null // We'll set this later
+    }
+  }
+  return { rating: null, ratedAt: null, ratedBy: null }
+}
+
 async function main() {
   // Clear existing data
   await prisma.coinTransaction.deleteMany()
@@ -46,6 +57,10 @@ async function main() {
           password,
           coins: 100 + (i * 10),
           role,
+          averageRating: Math.random() * 5,
+          totalCritiquesGiven: 0,
+          totalRatingsReceived: 0,
+          sumOfRatingsReceived: 0,
         }
       })
     })
@@ -77,16 +92,20 @@ async function main() {
     tracks.flatMap((track) =>
       users
         .filter(user => user.id !== track.userId) // Users can't critique their own tracks
-        .slice(0, Math.floor(Math.random() * 5) + 1) // Random number of critiques (1-3) per track
+        .slice(0, Math.floor(Math.random() * 10) + 5) // 5-14 critiques per track
         .map(user => {
           const sampleCritique = SAMPLE_CRITIQUES[Math.floor(Math.random() * SAMPLE_CRITIQUES.length)]
           const randomTitle = generateCritiqueTitle()
+          const { rating, ratedAt } = generateRandomRating()
           return prisma.critique.create({
             data: {
               trackId: track.id,
               userId: user.id,
               title: randomTitle,
               ...sampleCritique,
+              rating,
+              ratedAt,
+              ratedBy: rating ? track.userId : null // Set ratedBy to track owner if there's a rating
             }
           })
         })

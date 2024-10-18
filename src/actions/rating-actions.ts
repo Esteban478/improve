@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AuthorizationError } from "@/types/errors";
 import { updateCoins } from "./coin-actions";
+import { updateUserStatistics } from "./user-actions";
 
 export async function submitRating(formData: FormData) {
   const session = await getServerSession();
@@ -22,7 +23,18 @@ export async function submitRating(formData: FormData) {
   // Fetch the critique and associated track
   const critique = await prisma.critique.findUnique({
     where: { id: critiqueId },
-    include: { track: true, user: true },
+    include: { 
+      track: {
+        include: {
+          user: {
+            select: {
+              email: true
+            }
+          }
+        }
+      }, 
+      user: true 
+    },
   });
 
   if (!critique) {
@@ -30,7 +42,7 @@ export async function submitRating(formData: FormData) {
   }
 
   // Check if the current user is the track owner
-  if (critique.track.userId !== session.user.email) {
+  if (critique.track.user.email !== session.user.email) {
     throw new AuthorizationError("Only the track owner can rate this critique.");
   }
 
@@ -50,13 +62,7 @@ export async function submitRating(formData: FormData) {
   });
 
   // Update user statistics
-  await prisma.user.update({
-    where: { email: critique.user.email! },
-    data: {
-      totalRatingsReceived: { increment: 1 },
-      sumOfRatingsReceived: { increment: rating },
-    },
-  });
+  await updateUserStatistics(critique.user.id, rating);
 
   // If rating is 4 or 5, award an additional coin
   if (rating >= 4) {

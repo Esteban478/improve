@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import RatingPopover from './RatingPopover'
 
 interface DashboardCritiqueItemProps {
   id: string
@@ -8,6 +9,7 @@ interface DashboardCritiqueItemProps {
   trackSlug: string
   createdAt: Date
   rating: number | null
+  isTrackOwner: boolean
 }
 
 const DashboardCritiqueItem: React.FC<DashboardCritiqueItemProps> = ({ 
@@ -16,7 +18,8 @@ const DashboardCritiqueItem: React.FC<DashboardCritiqueItemProps> = ({
   trackTitle, 
   trackSlug, 
   createdAt, 
-  rating 
+  rating,
+  isTrackOwner
 }) => {
   return (
     <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-4">
@@ -29,9 +32,11 @@ const DashboardCritiqueItem: React.FC<DashboardCritiqueItemProps> = ({
         <Link href={`/critique/${trackSlug}/${id}`} className="text-sm text-blue-500 hover:underline">
           View Critique
         </Link>
-        {rating !== null && (
-          <span className="text-sm text-yellow-500">Rating: {rating}/5</span>
-        )}
+        {rating !== null ? (
+          <span className="text-sm font-medium">Rating: {rating}/5</span>
+        ) : isTrackOwner ? (
+          <RatingPopover critiqueId={id} existingRating={null} />
+        ) : null}
       </div>
     </div>
   )
