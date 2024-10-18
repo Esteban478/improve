@@ -38,7 +38,7 @@ export function slugify(text: string): string {
 }
 
 export async function generateUniqueSlug(title: string): Promise<string> {
-  let slug = slugify(title);
+  const slug = slugify(title);
   let uniqueSlug = slug;
   let counter = 1;
 
