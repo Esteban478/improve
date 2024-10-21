@@ -53,6 +53,7 @@ model User {
   totalRatingsReceived Int               @default(0)
   sumOfRatingsReceived Int               @default(0)
   averageRating        Float?            @default(0)
+  activityLogs         ActivityLog[]
 }
 
 model CoinTransaction {
@@ -112,4 +113,13 @@ model Critique {
   rating            Int?
   ratedAt           DateTime?
   ratedBy           String?
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
 }

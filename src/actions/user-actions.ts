@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma"
 import { catchErrorTyped } from "@/lib/utils"
 import { CritiqueWithTrack } from "@/types/index"
+import { revalidatePath } from "next/cache"
 
 export async function getUserProfile(email: string) {
   const [error, user] = await catchErrorTyped(
@@ -9,7 +10,8 @@ export async function getUserProfile(email: string) {
       select: { 
         name: true, 
         email: true, 
-        image: true, 
+        image: true,
+        role: true,
         coins: true, 
         averageRating: true,
         totalCritiquesGiven: true,
@@ -126,4 +128,72 @@ export async function updateUserStatistics(userId: string, newRating: number) {
   });
 
   return newAverageRating;
+}
+
+export async function getUserActivityLogs(email: string, page: number = 1, limit: number = 10) {
+  const skip = (page - 1) * limit;
+
+  const [error, result] = await catchErrorTyped(
+    prisma.user.findUnique({
+      where: { email },
+      select: {
+        activityLogs: {
+          orderBy: { createdAt: 'desc' },
+          skip,
+          take: limit,
+        },
+        _count: {
+          select: { activityLogs: true }
+        }
+      },
+    })
+  )
+
+  if (error) {
+    console.error("Failed to fetch user activity logs:", error)
+    return { logs: [], totalCount: 0 }
+  }
+
+  return { 
+    logs: result?.activityLogs || [], 
+    totalCount: result?._count.activityLogs || 0 
+  }
+}
+
+export async function updateUserProfile(email: string | null | undefined, data: { name: string; role: string }) {
+  if (!email) {
+    throw new Error("User email is required")
+  }
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: {
+        name: data.name,
+        role: data.role,
+      },
+    })
+    revalidatePath('/profile')
+    
+    return updatedUser
+  } catch (error) {
+    console.error("Failed to update user profile:", error)
+    throw new Error("Failed to update user profile")
+  }
+}
+
+export async function loadMoreActivityLogs(email: string, page: number, limit: number = 10) {
+  const skip = (page - 1) * limit
+  try {
+    const logs = await prisma.activityLog.findMany({
+      where: { user: { email } },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+    })
+    return logs
+  } catch (error) {
+    console.error("Failed to load more activity logs:", error)
+    throw new Error("Failed to load more activity logs")
+  }
 }

@@ -6,6 +6,7 @@ import { TrackWithCritiques } from '@/types/index'
 import { updateCoins } from './coin-actions'
 import { AuthorizationError } from '@/types/errors'
 import { revalidatePath } from 'next/cache'
+import { logUserActivity } from '@/lib/statistics-utils'
 
 const FEEDBACK_REQUEST_COST = 3
 
@@ -270,6 +271,8 @@ export async function submitTrack(formData: FormData) {
     },
   })
 
+  await logUserActivity(user.id, 'Track submitted', `Track ID: ${newTrack.id}`)
+
   revalidatePath('/tracks')
   revalidatePath('/')
   revalidatePath('/dashboard')
@@ -291,6 +294,7 @@ export async function requestFeedback(trackId: string, userEmail: string) {
   })
 
   await updateCoins(userEmail, FEEDBACK_REQUEST_COST, 'SPEND', 'Requested feedback')
+  await logUserActivity(user.id, 'Feedback requested', `Track ID: ${trackId}`)
 
   revalidatePath('/dashboard')
   revalidatePath('/')

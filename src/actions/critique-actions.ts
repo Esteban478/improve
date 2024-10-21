@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma'
 import { updateCoins } from './coin-actions'
 import { AuthorizationError, NotFoundError } from '../types/errors'
 import { ExtendedCritique } from '../types'
+import { logUserActivity, updateUserStatistics } from '@/lib/statistics-utils'
 
 const CRITIQUE_REWARD = 1
 const FEEDBACK_REQUEST_COST = 3
@@ -140,12 +141,6 @@ export async function submitCritique(formData: FormData) {
     const title = formData.get('title') as string
     const overallImpression = formData.get('overallImpression') as string
 
-    // console.log('Submitting critique with data:', {
-    //   trackId, userEmail, mixingQuality, tonalBalance, masteringLoudness,
-    //   soundDesign, arrangement, technicalSummary, emotionalResponse,
-    //   imagery, standoutElements, genreFit, overallImpression
-    // })
-
     if (!trackId || !userEmail || !overallImpression) {
       throw new Error('Missing required fields')
     }
@@ -153,9 +148,6 @@ export async function submitCritique(formData: FormData) {
     const user = await prisma.user.findUnique({
       where: { email: userEmail },
     })
-
-    // console.log('User email:', userEmail);
-    // console.log('User object:', user);
 
     if (!user) {
       console.error('User not found for email:', userEmail);
@@ -180,6 +172,9 @@ export async function submitCritique(formData: FormData) {
         overallImpression,
       },
     })
+
+    await updateUserStatistics(user.id)
+    await logUserActivity(user.id, 'Critique submitted', `Critique ID: ${newCritique.id}`)
 
     await updateCoins(userEmail, CRITIQUE_REWARD, 'EARN', 'Submitted critique')
     revalidatePath(`/tracks/${slug}`)

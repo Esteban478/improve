@@ -25,3 +25,7 @@ export const STRENGTH_LABELS = [
   'Strong',
   'Very strong',
 ]
+
+// Values
+export const CRITIQUE_REWARD = 1
+export const FEEDBACK_REQUEST_COST = 4

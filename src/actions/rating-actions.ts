@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { AuthorizationError } from "@/types/errors";
 import { updateCoins } from "./coin-actions";
 import { updateUserStatistics } from "./user-actions";
+import { logUserActivity } from "@/lib/statistics-utils";
 
 export async function submitRating(formData: FormData) {
   const session = await getServerSession();
@@ -61,8 +62,9 @@ export async function submitRating(formData: FormData) {
     },
   });
 
-  // Update user statistics
+  // Update user statistics and log activity
   await updateUserStatistics(critique.user.id, rating);
+  await logUserActivity(critique.user.id, 'Critique rated', `Critique ID: ${critiqueId}, Rating: ${rating}`)
 
   // If rating is 4 or 5, award an additional coin
   if (rating >= 4) {

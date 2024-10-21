@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import prisma from '@/lib/prisma'
 import { AuthorizationError } from '@/types/errors'
+import { logUserActivity } from '@/lib/statistics-utils'
 
 export async function updateCoins(userEmail: string, amount: number, type: 'EARN' | 'SPEND', reason: string) {
   // console.log(`Updating coins for user ${userId}: ${type} ${amount} coins for ${reason}`);
@@ -34,7 +35,7 @@ export async function updateCoins(userEmail: string, amount: number, type: 'EARN
     },
   })
 
-  // console.log(`Updated coins for user ${userId}: new balance ${updatedUser.coins}`);
+  await logUserActivity(updatedUser.id, `Coins ${type.toLowerCase()}ed`, `Amount: ${amount}, Reason: ${reason}`)
 
   revalidatePath('/dashboard')
   revalidatePath('/profile')

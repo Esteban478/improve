@@ -2,6 +2,7 @@
 
 import bcrypt from 'bcryptjs'
 import prisma from '@/lib/prisma'
+import { logUserActivity } from '@/lib/statistics-utils'
 
 export async function signUp(formData: FormData) {
   const name = formData.get('name') as string
@@ -40,6 +41,8 @@ export async function signUp(formData: FormData) {
       password: hashedPassword,
     },
   })
+
+  await logUserActivity(user.id, 'User account created')
 
   return { name: user.name, email: user.email }
 }
