@@ -24,8 +24,8 @@ const DashboardCritiqueItem: React.FC<DashboardCritiqueItemProps> = ({
   return (
     <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-4">
       <div className="flex-grow">
-        <h3 className="text-lg font-semibold mb-1">{title}</h3>
-        <p className="text-sm text-gray-600">For track: {trackTitle}</p>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="text-sm text-gray-600 mb-1">On track: {trackTitle}</p>
         <p className="text-xs text-gray-500">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
       </div>
       <div className="flex flex-col items-end space-y-2">

@@ -29,16 +29,23 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
         {isTrackOwner && (
           <RatingPopover critiqueId={critique.id} existingRating={critique.rating} />
         )}
-      </div>
+        </div>
       <div className="flex items-center mb-4">
         <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={48} />
         <div className="ml-4">
-          <h2 className="text-xl font-bold">{critique.user.name}</h2>
-          <p className="text-sm text-gray-500">
-            {critique.user.role} • {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
-          </p>
-        </div>
-      </div>
+          <p className="text-xl font-bold">
+            {critique.user.name} 
+            <span className="text-sm text-gray-500 ml-2">({critique.user.role || 'User'})</span>
+          </p>                  
+            <p className="text-sm text-gray-600">
+                &Oslash; Rating: {critique.user.averageRating?.toFixed(2)}
+            </p>
+            <p className="text-sm text-gray-400">
+                {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
+            </p>
+          </div>
+          </div>
+          
       <div className="mt-6 flex justify-end space-x-4">
         {canEditCritique(currentUserEmail, critique) && (
           <Link href={`/critique/${critique.track.slug}/${critique.id}/edit`} passHref>
@@ -62,12 +69,14 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
                   {criterion.label}
                 </label>
                 <meter
-                  id={criterion.label}
-                  value={criterion.value}
-                  min="0"
-                  max="10"
-                  className="w-full h-6"
-                >
+                    id={criterion.label}
+                    value={criterion.value}
+                    min={0}
+                    low={4}
+                    high={7}
+                    optimum={10}
+                    max={10}
+                    className="w-full h-6">   
                   {criterion.value}/10
                 </meter>
               </div>

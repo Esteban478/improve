@@ -55,6 +55,7 @@ export async function getCritiqueById(id: string): Promise<ExtendedCritique | nu
           email: true,
           image: true,
           role: true,
+          averageRating: true,
         },
       },
       track: {

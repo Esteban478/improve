@@ -48,8 +48,6 @@ export async function getTrackById(id: string): Promise<TrackWithCritiques | nul
 }
 
 export async function getTrackBySlug(slug: string): Promise<TrackWithCritiques | null> {
-  // console.log('Fetching track with slug:', slug);
-
   const track = await prisma.track.findUnique({
     where: { slug },
     include: {
@@ -107,7 +105,7 @@ export async function getTracks(searchParams: { search?: string, genre?: string,
           email: true,
           image: true,
           coins: true,
-          role: true,
+          role: true
         },
       },
       critiques: {
@@ -119,7 +117,7 @@ export async function getTracks(searchParams: { search?: string, genre?: string,
               email: true,
               image: true,
               coins: true,
-              role: true,
+              role: true
             },
           },
         },
@@ -153,7 +151,7 @@ export async function getLatestTracks(limit: number = 5): Promise<TrackWithCriti
             email: true,
             image: true,
             coins: true,
-            role: true,
+            role: true
           },
         },
         critiques: {
@@ -165,7 +163,7 @@ export async function getLatestTracks(limit: number = 5): Promise<TrackWithCriti
                 email: true,
                 image: true,
                 coins: true,
-                role: true,
+                role: true
               },
             },
           },
@@ -183,57 +181,6 @@ export async function getLatestTracks(limit: number = 5): Promise<TrackWithCriti
   }
 
   return tracks as TrackWithCritiques[];
-}
-
-export async function getTrackForCritique(trackId: string): Promise<TrackWithCritiques | null> {
-  const [error, track] = await catchErrorTyped(
-    prisma.track.findUnique({
-      where: { id: trackId },
-      include: { 
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            image: true,
-            role: true,
-          },
-        },
-        critiques: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-                image: true,
-                role: true,
-              },
-            },
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        },
-      },
-    })
-  );
-
-  if (error) {
-    console.error("Failed to fetch track for critique:", error);
-    return null;
-  }
-
-  if (!track) return null;
-
-  return {
-    ...track,
-    user: track.user,
-    critiques: track.critiques.map(critique => ({
-      ...critique,
-      user: critique.user
-    }))
-  };
 }
 
 export async function submitTrack(formData: FormData) {

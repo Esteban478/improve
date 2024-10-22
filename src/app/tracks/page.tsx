@@ -31,7 +31,7 @@ export default async function TracksPage({ searchParams }: { searchParams: { sea
             {feedbackTracks.map((track) => (
               <TrackDisplay 
                 key={track.id} 
-                track={track} 
+                track={track}
                 isListingPage={true} 
                 isCritiquePage={false}
                 showFeedbackRequest={false}

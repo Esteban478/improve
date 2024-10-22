@@ -40,8 +40,8 @@ const DashboardTrackItem: React.FC<DashboardTrackItemProps> = ({
   return (
     <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-4">
       <div className="flex-grow">
-        <h3 className="text-lg font-semibold mb-1">{title}</h3>
-        <p className="text-sm text-gray-600">{genre || 'No genre specified'}</p>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="text-sm text-gray-600 mb-1">{genre || 'No genre specified'}</p>
         <p className="text-xs text-gray-500">Submitted {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
         {isRequested && requestedAt && (
           <p className="text-xs text-green-500">Feedback requested {formatDistanceToNow(new Date(requestedAt), { addSuffix: true })}</p>

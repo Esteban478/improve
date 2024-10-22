@@ -20,7 +20,7 @@ async function UserProfile({ email }: { email: string }) {
           <h1 className="text-2xl font-bold">{user.name}</h1>
           <p className="text-gray-600">{user.email}</p>
           <p className="text-yellow-600">{user.coins} coins</p>
-          {user.averageRating !== null && (
+          {user.averageRating! && (
             <p className="text-gray-800">Average Rating: {user.averageRating.toFixed(2)}</p>
           )}
         </div>
@@ -75,7 +75,7 @@ async function UserCritiques({ email }: { email: string }) {
       <h2 className="text-xl font-bold mb-4">Your Critiques</h2>
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <h3 className="text-lg font-semibold mb-2">Given Critiques</h3>
+          <h3 className="text-lg font-semibold mb-2">Given</h3>
           {givenCritiques && givenCritiques.length > 0 ? (
             givenCritiques.map((critique) => (
               <DashboardCritiqueItem
@@ -94,7 +94,7 @@ async function UserCritiques({ email }: { email: string }) {
           )}
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-2">Received Critiques</h3>
+          <h3 className="text-lg font-semibold mb-2">Received</h3>
           {receivedCritiques && receivedCritiques.length > 0 ? (
             receivedCritiques.map((critique) => (
               <DashboardCritiqueItem

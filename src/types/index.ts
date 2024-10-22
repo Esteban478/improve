@@ -6,6 +6,7 @@ export interface MinimalUser {
   email: string | null;
   image: string | null;
   role: string | null;
+  averageRating?: number | null;
 }
 
 export interface ExtendedCritique extends Omit<Critique, 'user'> {
