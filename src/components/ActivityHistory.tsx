@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
+import { ActivityLog } from '@prisma/client'
 
 interface ActivityHistoryProps {
-  initialLogs: any[]
+  initialLogs: ActivityLog[]
   totalCount: number
   userEmail: string
-  loadMoreLogs: (email: string, page: number) => Promise<any[]>
+  loadMoreLogs: (email: string, page: number) => Promise<ActivityLog[]>
 }
 
 export default function ActivityHistory({ initialLogs, totalCount, userEmail, loadMoreLogs }: ActivityHistoryProps) {

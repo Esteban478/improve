@@ -25,3 +25,16 @@ export interface CritiqueWithTrack extends ExtendedCritique {
     slug: string;
   };
 }
+
+export interface UserProfile {
+  id: string
+  name: string
+  email: string
+  image: string
+  role: string
+  coins: number
+  averageRating?: number
+  totalCritiquesGiven: number
+  totalRatingsReceived: number
+  createdAt: string
+}

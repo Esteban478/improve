@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/button"
 import UserAvatar from "@/components/UserAvatar"
 import EditUserForm from "@/components/EditUserForm"
 import ActivityHistory from "@/components/ActivityHistory"
+import { ActivityLog } from '@prisma/client'
+import { UserProfile } from '../types'
 
 interface UserProfileContentProps {
-  userProfile: any
-  initialLogs: any[]
+  userProfile: UserProfile
+  initialLogs: ActivityLog[]
   totalCount: number
   updateProfileAction: (formData: FormData) => Promise<void>
-  loadMoreLogsAction: (email: string, page: number) => Promise<any[]>
+  loadMoreLogsAction: (email: string, page: number) => Promise<ActivityLog[]>
 }
 
 export default function UserProfileContent({ 
