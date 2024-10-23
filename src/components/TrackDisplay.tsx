@@ -6,7 +6,7 @@ import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 import { TrackWithCritiques } from '@/types/index';
-import { canGiveCritique, getUserCritique } from '@/lib/critique-utils';
+import { canGiveCritique } from '@/lib/critique-utils';
 
 interface TrackDisplayProps {
   track: TrackWithCritiques;
@@ -32,7 +32,7 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({
 
   const renderCritiqueButton = () => {
     if (isTrackOwner) return null;
-    
+
     if (canGiveCritique(currentUserEmail, track.user.id, track.critiques) && !isListingPage && !isCritiquePage) {
       return (
         <Link href={`/critique/${track.slug}`} passHref>
