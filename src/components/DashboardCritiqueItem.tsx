@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
-import RatingPopover from './RatingPopover'
 
 interface DashboardCritiqueItemProps {
   id: string
@@ -16,8 +15,7 @@ const DashboardCritiqueItem: React.FC<DashboardCritiqueItemProps> = ({
   title, 
   trackSlug, 
   createdAt, 
-  rating,
-  isTrackOwner
+    rating
 }) => {
   return (
     <div className="flex justify-between p-4 border rounded bg-card mb-4">

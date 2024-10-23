@@ -52,7 +52,6 @@ async function UserTracks({ email }: { email: string }) {
               key={track.id}
               id={track.id}
               title={track.title}
-              genre={track.genre}
               slug={track.slug}
               requested={track.requested}
               userEmail={email}

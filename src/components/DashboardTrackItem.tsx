@@ -11,7 +11,6 @@ import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 interface DashboardTrackItemProps {
   id: string
   title: string
-  genre: string | null
   slug: string
   requested: boolean
   userEmail: string
@@ -20,7 +19,7 @@ interface DashboardTrackItemProps {
 }
 
 const DashboardTrackItem: React.FC<DashboardTrackItemProps> = ({
-  id, title, genre, slug, requested, userEmail, createdAt, requestedAt
+  id, title, slug, requested, userEmail, createdAt, requestedAt
 }) => {
   const [error, setError] = useState<string | null>(null);
   const [isRequested, setIsRequested] = useState(requested);

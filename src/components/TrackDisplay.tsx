@@ -32,9 +32,7 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({
 
   const renderCritiqueButton = () => {
     if (isTrackOwner) return null;
-
-    const userCritique = getUserCritique(currentUserEmail, track.critiques);
-
+    
     if (canGiveCritique(currentUserEmail, track.user.id, track.critiques) && !isListingPage && !isCritiquePage) {
       return (
         <Link href={`/critique/${track.slug}`} passHref>
