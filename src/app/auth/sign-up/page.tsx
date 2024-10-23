@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signUp } from '@/actions/auth-actions'
 import PasswordStrengthMeter from '@/components/PasswordStrengthMeter'
+import { UserRoleDropdown } from '@/components/UserRoleDropdown'
 
 export default function SignUp() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [role, setRole] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
 
@@ -25,6 +27,10 @@ export default function SignUp() {
       setError('Please enter a valid email address')
       return false
     }
+    if (!role) {
+      setError('Please select your role')
+      return false
+    }
     return true
   }
 
@@ -37,6 +43,7 @@ export default function SignUp() {
       formData.append('name', name)
       formData.append('email', email)
       formData.append('password', password)
+      formData.append('role', role)
 
       await signUp(formData)
       router.push('/auth/sign-in')
@@ -81,6 +88,11 @@ export default function SignUp() {
           />
           <PasswordStrengthMeter password={password} />
         </div>
+        <UserRoleDropdown
+          value={role}
+          onValueChange={setRole}
+          required={true}
+        />
         <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
           Sign Up
         </button>

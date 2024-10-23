@@ -31,16 +31,16 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
         )}
         </div>
       <div className="flex items-center mb-4">
-        <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={48} />
+        <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={60} />
         <div className="ml-4">
-          <p className="text-xl font-bold">
+          <p className="text-lg font-bold">
             {critique.user.name} 
             <span className="text-sm text-gray-500 ml-2">({critique.user.role || 'User'})</span>
           </p>                  
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 mb-1">
                 &Oslash; Rating: {critique.user.averageRating?.toFixed(2)}
             </p>
-            <p className="text-sm text-gray-400">
+            <p className="text-xs text-gray-400">
                 {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
             </p>
           </div>

@@ -39,7 +39,6 @@ model User {
   id                   String            @id @default(cuid())
   name                 String?
   email                String?           @unique
-  emailVerified        DateTime?
   password             String?
   image                String?
   accounts             Account[]
@@ -54,6 +53,7 @@ model User {
   sumOfRatingsReceived Int               @default(0)
   averageRating        Float?            @default(0)
   activityLogs         ActivityLog[]
+  createdAt            DateTime          @default(now())
 }
 
 model CoinTransaction {

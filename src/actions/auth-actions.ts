@@ -3,14 +3,16 @@
 import bcrypt from 'bcryptjs'
 import prisma from '@/lib/prisma'
 import { logUserActivity } from '@/lib/statistics-utils'
+import { SAMPLE_USER_ROLES } from '@/lib/sample-data'
 
 export async function signUp(formData: FormData) {
   const name = formData.get('name') as string
   const email = formData.get('email') as string
   const password = formData.get('password') as string
+  const role = formData.get('role') as string
   
-  if (!name || !email || !password) {
-    throw new Error('Missing fields')
+  if (!name || !email || !password || !role) {
+    throw new Error('Missing required fields')
   }
 
   // Server-side validation
@@ -22,6 +24,9 @@ export async function signUp(formData: FormData) {
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error('Please enter a valid email address')
+  }
+  if (!SAMPLE_USER_ROLES.includes(role)) {
+    throw new Error('Invalid role selected')
   }
 
   const exists = await prisma.user.findUnique({
@@ -39,6 +44,7 @@ export async function signUp(formData: FormData) {
       name,
       email,
       password: hashedPassword,
+      role,
     },
   })
 

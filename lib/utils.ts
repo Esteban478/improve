@@ -55,3 +55,38 @@ export async function generateUniqueSlug(title: string): Promise<string> {
     counter++;
   }
 }
+
+/**
+ * Calculates the password strength based on entropy
+ * Returns a number from 0-4 representing very weak to very strong
+ */
+export function calculatePasswordStrength(password: string): number {
+  // Calculate the range of possible characters based on what's used in the password
+  let range = 0;
+  
+  // Check character types used
+  const hasLowercase = /[a-z]/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumbers = /[0-9]/.test(password);
+  const hasSymbols = /[^A-Za-z0-9]/.test(password);
+  
+  // Add to range based on character types used
+  if (hasLowercase) range += 26; // a-z
+  if (hasUppercase) range += 26; // A-Z
+  if (hasNumbers) range += 10;   // 0-9
+  if (hasSymbols) range += 32;   // Common symbols
+  
+  // If no characters are found (shouldn't happen), set minimum range
+  if (range === 0) range = 26;
+  
+  // Calculate entropy: E = log2(R^L)
+  // Which is equivalent to: E = L * log2(R)
+  const entropy = password.length * Math.log2(range);
+  
+  // Convert entropy to strength level (0-4)
+  if (entropy < 35) return 0;   // Very weak
+  if (entropy < 60) return 1;   // Weak
+  if (entropy < 90) return 2;   // Strong
+  if (entropy < 120) return 3;  // Very strong
+  return 0;
+}

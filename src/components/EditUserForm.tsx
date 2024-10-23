@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { SAMPLE_USER_ROLES } from "@/lib/sample-data"
+import { UserRoleDropdown } from "./UserRoleDropdown"
 
 interface EditUserFormProps {
   initialName: string
@@ -36,21 +35,14 @@ export default function EditUserForm({ initialName, initialRole, onSave }: EditU
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="mt-1"
+          required
         />
       </div>
-      <div>
-        <Label htmlFor="role">Role</Label>
-        <Select name="role" value={role} onValueChange={setRole}>
-          <SelectTrigger className="mt-1">
-            <SelectValue placeholder="Select a role" />
-          </SelectTrigger>
-          <SelectContent>
-            {SAMPLE_USER_ROLES.map((role) => (
-              <SelectItem key={role} value={role}>{role}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <UserRoleDropdown
+        value={role}
+        onValueChange={setRole}
+        required={true}
+      />
       <Button type="submit" disabled={isLoading}>
         {isLoading ? 'Saving...' : 'Save Changes'}
       </Button>

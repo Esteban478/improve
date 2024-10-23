@@ -16,7 +16,8 @@ export async function getUserProfile(email: string) {
         averageRating: true,
         totalCritiquesGiven: true,
         totalRatingsReceived: true,
-        sumOfRatingsReceived: true
+        sumOfRatingsReceived: true,
+        createdAt: true
       },
     })
   )
