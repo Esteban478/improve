@@ -38,7 +38,7 @@ const ObjectiveCriteria: React.FC<ObjectiveCriteriaProps> = ({ formData, onChang
         <span>Poor</span>
         <span>Excellent</span>
       </div>
-      <button type="button" onClick={() => onChange(name, null)} className="text-sm text-blue-500 mt-2">
+      <button type="button" onClick={() => onChange(name, null)} className="text-sm text-accent-foreground mt-2">
         Not sure
       </button>
     </div>

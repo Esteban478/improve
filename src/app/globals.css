@@ -13,7 +13,7 @@ body {
 }
 
 @layer base {
-  :root {
+  /* :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -39,7 +39,137 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+  } */
+  :root {
+    --background: 120 9% 18%;
+    /* rgb(43, 51, 43) - Darkest green as base */
+    --foreground: 122 85% 49%;
+    /* rgb(31, 187, 47) - Bright green for text */
+
+    --card: 120 9% 18%;
+    /* Same as background */
+    --card-foreground: 122 85% 49%;
+    /* Same as foreground */
+
+    --popover: 120 9% 18%;
+    /* Same as background */
+    --popover-foreground: 122 85% 49%;
+    /* Same as foreground */
+
+    --primary: 120 100% 45%;
+    /* rgb(0, 229, 22) - Vibrant green for primary actions */
+    --primary-foreground: 120 9% 18%;
+    /* Dark background for contrast */
+
+    --secondary: 122 50% 38%;
+    /* rgb(48, 145, 58) - Muted green for secondary elements */
+    --secondary-foreground: 120 9% 18%;
+    /* Dark background for contrast */
+
+    --muted: 120 33% 30%;
+    /* rgb(51, 102, 56) - Muted green for subtle elements */
+    --muted-foreground: 120 20% 82%;
+    /* Light gray-green for muted text */
+
+    --accent: 120 20% 20%;
+    /* rgb(40, 60, 42) - Subtle green for accents */
+    --accent-foreground: 122 85% 49%;
+    /* Bright green for accent text */
+
+    --destructive: 0 84% 60%;
+    /* Keeping red for destructive actions */
+    --destructive-foreground: 0 0% 98%;
+    /* Light color for destructive text */
+
+    --border: 120 33% 30%;
+    /* Same as muted for consistency */
+    --input: 120 33% 30%;
+    /* Same as border */
+    --ring: 122 85% 49%;
+    /* Same as foreground for focus rings */
+
+    --chart-1: 122 85% 49%;
+    /* rgb(31, 187, 47) */
+    --chart-2: 122 50% 38%;
+    /* rgb(48, 145, 58) */
+    --chart-3: 120 100% 45%;
+    /* rgb(0, 229, 22) */
+    --chart-4: 120 33% 30%;
+    /* rgb(51, 102, 56) */
+    --chart-5: 120 20% 20%;
+    /* rgb(40, 60, 42) */
+
+    --radius: 0.5rem;
   }
+    :root {
+      /* Base colors - using darkest green as near-black background */
+      --background: 120 100% 5%;
+      /* #1a3300 - Darkest shade as base */
+      --foreground: 120 100% 95%;
+      /* Near white for main text */
+  
+      /* Card and Popover - keeping relationship */
+      --card: 120 100% 10%;
+      /* Same as background */
+      --card-foreground: 120 100% 95%;
+      /* Same as foreground */
+      --popover: 120 100% 10%;
+      /* Same as background */
+      --popover-foreground: 120 100% 95%;
+      /* Same as foreground */
+  
+      /* Primary - vibrant green for main actions */
+      --primary: 96 100% 50%;
+      /* #84ff00 - 500 */
+      --primary-foreground: 120 100% 10%;
+      /* Dark background color for contrast */
+  
+      /* Secondary - more muted green */
+      --secondary: 96 100% 40%;
+      /* #6acc00 - 600 */
+      --secondary-foreground: 120 100% 95%;
+      /* Light text */
+  
+      /* Muted - subtle background variations */
+      --muted: 120 100% 20%;
+      /* #356600 - 800 */
+      --muted-foreground: 96 100% 80%;
+      /* #ceff99 - 200 */
+  
+      /* Accent - medium green for highlights */
+      --accent: 96 100% 30%;
+      /* #4f9900 - 700 */
+      --accent-foreground: 96 100% 90%;
+      /* #e6ffcc - 100 */
+  
+      /* Destructive - keeping red for warnings/errors */
+      --destructive: 0 84% 60%;
+      /* Red */
+      --destructive-foreground: 0 0% 98%;
+      /* Light text on destructive */
+  
+      /* Border, Input, Ring */
+      --border: 120 100% 20%;
+      /* #356600 - 800 */
+      --input: 120 100% 20%;
+      /* Same as border */
+      --ring: 96 100% 50%;
+      /* Same as primary */
+  
+      /* Chart colors - using different shades from your scale */
+      --chart-1: 96 100% 50%;
+      /* #84ff00 - 500 */
+      --chart-2: 96 100% 40%;
+      /* #6acc00 - 600 */
+      --chart-3: 96 100% 60%;
+      /* #9dff33 - 400 */
+      --chart-4: 96 100% 70%;
+      /* #b5ff66 - 300 */
+      --chart-5: 96 100% 30%;
+      /* #4f9900 - 700 */
+  
+      --radius: 0.5rem;
+    }
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;

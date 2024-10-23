@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/src/components/ui/button'
 
 export default function SignIn() {
   const [email, setEmail] = useState('')
@@ -20,7 +22,7 @@ export default function SignIn() {
     if (result?.error) {
       setError('Invalid email or password')
     } else {
-      router.push('/')
+      router.push('/dashboard')
     }
   }
 
@@ -29,7 +31,7 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4">Sign In</h1>
         {error && <p className="text-red-500">{error}</p>}
-        <input
+        <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -37,7 +39,7 @@ export default function SignIn() {
           required
           className="p-2 border rounded"
         />
-        <input
+        <Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -45,9 +47,9 @@ export default function SignIn() {
           required
           className="p-2 border rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        <Button type="submit">
           Sign In
-        </button>
+        </Button>
       </form>
     </main>
   )

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { signUp } from '@/actions/auth-actions'
 import PasswordStrengthMeter from '@/components/PasswordStrengthMeter'
 import { UserRoleDropdown } from '@/components/UserRoleDropdown'
+import { Input } from '@/src/components/ui/input'
+import { Button } from '@/src/components/ui/button'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -61,7 +63,7 @@ export default function SignUp() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
         {error && <p className="text-red-500">{error}</p>}
-        <input
+        <Input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -69,7 +71,7 @@ export default function SignUp() {
           required
           className="p-2 border rounded"
         />
-        <input
+        <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -78,7 +80,7 @@ export default function SignUp() {
           className="p-2 border rounded"
         />
         <div>
-          <input
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -93,9 +95,9 @@ export default function SignUp() {
           onValueChange={setRole}
           required={true}
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        <Button type="submit">
           Sign Up
-        </button>
+        </Button>
       </form>
     </main>
   )

@@ -30,7 +30,7 @@ export default function ActivityHistory({ initialLogs, totalCount, userEmail, lo
   }
 
   return (
-    <div>
+    <div className="border bg-card rounded p-6">
       <h3 className="text-xl font-semibold mb-4">Recent Activity</h3>
       {logs.length > 0 ? (
         <ul className="space-y-2">

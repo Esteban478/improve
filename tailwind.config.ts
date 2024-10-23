@@ -50,23 +50,7 @@ const config: Config = {
             '3': 'hsl(var(--chart-3))',
             '4': 'hsl(var(--chart-4))',
             '5': 'hsl(var(--chart-5))'
-			  },
-		red: {
-			DEFAULT: 'hsl(var(--red))',
-			accent: 'hsl(var(--red-500))',
-			},
-		orange: {
-			DEFAULT: 'hsl(var(--orange))',
-			accent: 'hsl(var(--orange-500))',
-			},
-		yellow: {
-			DEFAULT: 'hsl(var(--yellow))',
-			accent: 'hsl(var(--yellow-500))',
-			},
-		green: {
-			DEFAULT: 'hsl(var(--green))',
-			accent: 'hsl(var(--green-500))',
-			}
+			  }
 		},
         borderRadius: {
           lg: 'var(--radius)',

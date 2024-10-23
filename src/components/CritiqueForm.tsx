@@ -133,7 +133,7 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
             <Input
               type="text"
               placeholder="Enter critique title"
-              value={formData.title as string || ''}
+              value={formData.title || ''}
               onChange={(e) => handleChange('title', e.target.value)}
               className="mb-4"
             />
@@ -146,9 +146,9 @@ export default function CritiqueForm({ trackId, trackSlug, existingCritique }: C
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-2xl mx-auto p-6 rounded border">
       <div className="mb-4">
-        <Link href="/how-to-critique#how-to-give-good-feedback" className="text-blue-500 hover:underline">
+        <Link href="/how-to-critique#how-to-give-good-feedback" className="text-accent-foreground hover:underline">
           Learn how to give constructive critique
         </Link>
       </div>

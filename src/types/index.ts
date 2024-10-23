@@ -27,7 +27,6 @@ export interface CritiqueWithTrack extends ExtendedCritique {
 }
 
 export interface UserProfile {
-  id: string
   name: string
   email: string
   image: string
@@ -36,5 +35,6 @@ export interface UserProfile {
   averageRating?: number
   totalCritiquesGiven: number
   totalRatingsReceived: number
-  createdAt: string
+  sumOfRatingsReceived: number
+  createdAt: Date
 }

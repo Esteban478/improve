@@ -1,9 +1,9 @@
 import prisma from "@/lib/prisma"
 import { catchErrorTyped } from "@/lib/utils"
-import { CritiqueWithTrack } from "@/types/index"
+import { CritiqueWithTrack, UserProfile } from "@/types/index"
 import { revalidatePath } from "next/cache"
 
-export async function getUserProfile(email: string) {
+export async function getUserProfile(email: string): Promise<UserProfile> {
   const [error, user] = await catchErrorTyped(
     prisma.user.findUnique({
       where: { email },
@@ -24,10 +24,10 @@ export async function getUserProfile(email: string) {
 
   if (error) {
     console.error("Failed to fetch user profile:", error)
-    return null
+    return null as unknown as UserProfile
   }
 
-  return user
+  return user as UserProfile
 }
 
 export async function getUserTracks(email: string) {

@@ -14,14 +14,14 @@ function CritiqueList({ critiques, type }: { critiques: CritiqueWithTrack[], typ
       {critiques.length > 0 ? (
         <ul className="space-y-4">
           {critiques.map((critique) => (
-            <li key={critique.id} className="bg-white shadow-md rounded-lg p-4">
+            <li key={critique.id} className="border rounded p-4">
               <h4 className="font-semibold">{critique.track.title}</h4>
               <p className="text-gray-600">
                 {critique.overallImpression
                   ? critique.overallImpression.substring(0, 100) + '...'
                   : 'No overall impression provided.'}
               </p>
-              <Link href={`/tracks/${critique.track.slug}`} className="text-blue-500 hover:underline">
+              <Link href={`/tracks/${critique.track.slug}`} className="text-accent-foreground hover:underline">
                 View Track
               </Link>
             </li>

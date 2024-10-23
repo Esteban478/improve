@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <main className="container mx-auto px-4 py-8">
       <IntroductionDisplay />
-      <h2 className="text-3xl font-bold mb-6">Tracks Needing Feedback</h2>
+      <h2 className="text-2xl font-bold mb-6">Tracks Needing Feedback</h2>
       {tracks.length > 0 ? (
         <div className="space-y-8">
           {tracks.map((track) => (

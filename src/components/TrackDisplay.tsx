@@ -6,7 +6,7 @@ import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 import { TrackWithCritiques } from '@/types/index';
-import { canGiveCritique, canEditCritique, getUserCritique } from '@/lib/critique-utils';
+import { canGiveCritique, getUserCritique } from '@/lib/critique-utils';
 
 interface TrackDisplayProps {
   track: TrackWithCritiques;
@@ -41,32 +41,24 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({
           <Button variant="outline">Give Critique</Button>
         </Link>
       );
-    } else if (userCritique) {
-      if (canEditCritique(currentUserEmail, userCritique)  && !isListingPage && !isCritiquePage) {
-        return (
-          <Link href={`/critique/${track.slug}/${userCritique.id}/edit`} passHref>
-            <Button variant="outline">Edit Critique</Button>
-          </Link>
-        );
-      }
     }
 
     return null;
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-      <h2 className="text-2xl font-semibold mb-2">{track.title}</h2>
+    <div className="border p-4 bg-card rounded mb-4">
+      <h2 className="text-2xl font-semibold text-card-foreground mb-2">{track.title}</h2>
       <div className="flex items-center">
         <UserAvatar src={track.user.image} alt={track.user.name || ''} size={54} />
         <div className="ml-3">
           <p className="text-lg font-bold">{track.user.name || "Unknown Artist"}</p>
-          {track.genre && <p className="text-xs text-gray-600">{track.genre}</p>}
-          <p className="text-xs text-gray-400">{formatDistanceToNow(new Date(track.createdAt), { addSuffix: true })}</p>
+          {track.genre && <p className="text-xs text-muted-foreground">{track.genre}</p>}
+          <p className="text-xs text-muted-background">{formatDistanceToNow(new Date(track.createdAt), { addSuffix: true })}</p>
         </div>
       </div>
-      {track.description && <p className="text-gray-700 mt-4 mb-2">{track.description}</p>}
-      <SoundCloudEmbed url={track.url} />
+      {track.description && <p className="mt-4 mb-2">{track.description}</p>}
+      <SoundCloudEmbed url={track.url}/>
       <div className="mt-4 space-x-2">
         {isListingPage && (
           <Link href={`/tracks/${track.slug}`} passHref>

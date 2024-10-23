@@ -121,6 +121,7 @@ export async function requestFeedback(trackId: string, userEmail: string) {
 
   revalidatePath(`/tracks/${trackId}`)
   revalidatePath('/dashboard')
+  // revalidatePath('/', 'layout')
 
   return updatedTrack
 }

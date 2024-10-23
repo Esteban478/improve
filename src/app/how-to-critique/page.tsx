@@ -1,10 +1,10 @@
 export default function HowToCritiquePage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">How to give constructive critique</h1>
+      <h1 className="text-2xl font-bold mb-6">How to give constructive critique</h1>
       
       <section id="why-feedback-matters" className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Why Feedback Matters</h2>
+        <h2 className="text-xl font-semibold mb-2">Why Feedback Matters</h2>
         <p className="mb-6">
           Feedback is a powerful tool for growth and improvement. It provides valuable insights that can help refine skills, enhance performance, and drive innovation.
         </p>
@@ -19,7 +19,7 @@ export default function HowToCritiquePage() {
       </section>
 
       <section id="how-to-give-good-feedback" className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">So how to give good feedback?</h2>
+        <h2 className="text-xl font-semibold mb-2">So how to give good feedback?</h2>
         <h3 className="text-lg font-semibold">1. Be specific and constructive</h3>
         <p className="mb-4">Instead of general comments, provide specific examples and suggestions for improvement.</p>
         <h3 className="text-lg font-semibold">2. Balance positive and negative feedback</h3>

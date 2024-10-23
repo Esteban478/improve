@@ -38,25 +38,21 @@ const DashboardTrackItem: React.FC<DashboardTrackItemProps> = ({
   }
 
   return (
-    <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-4">
-      <div className="flex-grow">
+    <div className="flex justify-between bg-card p-4 border rounded mb-4">
+      <div className="flex flex-col justify-between">
         <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-sm text-gray-600 mb-1">{genre || 'No genre specified'}</p>
-        <p className="text-xs text-gray-500">Submitted {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
-        {isRequested && requestedAt && (
-          <p className="text-xs text-green-500">Feedback requested {formatDistanceToNow(new Date(requestedAt), { addSuffix: true })}</p>
-        )}
+        <p className="text-xs text-gray-500">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
       </div>
-      <div className="flex flex-col items-end space-y-2">
-        <Link href={`/tracks/${slug}`} className="text-sm text-blue-500 hover:underline">
+      <div className="flex flex-col self-start items-end space-y-2">
+        <Link href={`/tracks/${slug}`} className="text-sm text-accent-foreground hover:underline">
           View Track
         </Link>
         {!isRequested ? (
           <Button onClick={handleRequestFeedback} variant="outline" size="sm">
             Request Feedback
           </Button>
-        ) : (
-          <span className="text-sm text-green-500">Feedback Requested</span>
+        ) : isRequested && requestedAt && (
+          <p className="text-xs text-green-500">Feedback requested {formatDistanceToNow(new Date(requestedAt), { addSuffix: true })}</p>
         )}
       </div>
       {error && <ErrorDisplay message={error} />}

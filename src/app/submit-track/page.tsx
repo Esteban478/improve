@@ -6,6 +6,9 @@ import { submitTrack } from '@/actions/track-actions'
 import ErrorDisplay from '@/components/ErrorDisplay'
 import { catchErrorTyped } from '@/lib/utils'
 import { useState } from 'react'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
+import { Textarea } from '@/src/components/ui/textarea'
 
 export default function SubmitTrack() {
   const router = useRouter()
@@ -40,23 +43,23 @@ export default function SubmitTrack() {
       <form action={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="title" className="block mb-1">Title</label>
-          <input type="text" id="title" name="title" required className="w-full px-3 py-2 border rounded" />
+          <Input type="text" id="title" name="title" required className="w-full px-3 py-2 border rounded" />
         </div>
         <div>
           <label htmlFor="description" className="block mb-1">Description</label>
-          <textarea id="description" name="description" className="w-full px-3 py-2 border rounded" />
+          <Textarea id="description" name="description" className="w-full px-3 py-2 border rounded" />
         </div>
         <div>
           <label htmlFor="url" className="block mb-1">SoundCloud URL</label>
-          <input type="url" id="url" name="url" required className="w-full px-3 py-2 border rounded" />
+          <Input type="url" id="url" name="url" required className="w-full px-3 py-2 border rounded" />
         </div>
         <div>
           <label htmlFor="genre" className="block mb-1">Genre</label>
-          <input type="text" id="genre" name="genre" className="w-full px-3 py-2 border rounded" />
+          <Input type="text" id="genre" name="genre" className="w-full px-3 py-2 border rounded" />
         </div>
-        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+        <Button type="submit" className="w-full text-white py-2 rounded">
           Submit Track
-        </button>
+        </Button>
       </form>
     </div>
   )

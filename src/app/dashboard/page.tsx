@@ -7,13 +7,14 @@ import { getUserProfile, getUserTracks, getUserGivenCritiques, getUserReceivedCr
 import { catchErrorTyped } from "@/lib/utils"
 import DashboardTrackItem from "@/components/DashboardTrackItem"
 import DashboardCritiqueItem from "@/components/DashboardCritiqueItem"
+import Link from "next/link"
 
 async function UserProfile({ email }: { email: string }) {
   const [error, user] = await catchErrorTyped(getUserProfile(email))
   if (error || !user) return <ErrorDisplay message="Unable to load user profile." />
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+    <div className="border p-4 bg-card rounded mb-8">
       <div className="flex items-center mb-4">
         <UserAvatar src={user.image} alt={user.name || 'User'} size={64} />
         <div className="ml-4">
@@ -21,8 +22,13 @@ async function UserProfile({ email }: { email: string }) {
           <p className="text-gray-600">{user.email}</p>
           <p className="text-yellow-600">{user.coins} coins</p>
           {user.averageRating! && (
-            <p className="text-gray-800">Average Rating: {user.averageRating.toFixed(2)}</p>
+            <p className="text-gray-400">Average Rating: {user.averageRating.toFixed(2)}</p>
           )}
+        </div>
+        <div className="ml-auto self-start">
+          <Link href={'/profile'} className="text-sm text-accent-foreground hover:underline">
+            View Profile
+          </Link>
         </div>
       </div>
     </div>
@@ -82,7 +88,6 @@ async function UserCritiques({ email }: { email: string }) {
                 key={critique.id}
                 id={critique.id}
                 title={critique.title || 'Untitled Critique'}
-                trackTitle={critique.track.title}
                 trackSlug={critique.track.slug}
                 createdAt={critique.createdAt}
                 rating={critique.rating}
@@ -101,7 +106,6 @@ async function UserCritiques({ email }: { email: string }) {
                 key={critique.id}
                 id={critique.id}
                 title={critique.title || 'Untitled Critique'}
-                trackTitle={critique.track.title}
                 trackSlug={critique.track.slug}
                 createdAt={critique.createdAt}
                 rating={critique.rating}

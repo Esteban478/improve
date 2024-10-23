@@ -42,9 +42,9 @@ export default function UserProfileContent({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">User Profile</h1>
+      <h1 className="text-2xl font-bold mb-6">User Profile</h1>
       
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="border p-6 bg-card rounded mb-6">
         <div className="flex justify-between">
           {/* User Info Section */}
           <div className="flex items-start space-x-4">
@@ -59,17 +59,17 @@ export default function UserProfileContent({
 
           {/* Statistics Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-2">Statistics</h3>
-                <p className="text-gray-600">Registered: {formatDate(userProfile.createdAt)}</p>
-                <p className="text-gray-700">
-                Critiques Given: <span className="font-medium">{userProfile.totalCritiquesGiven}</span>
-                </p>
-                <p className="text-gray-700">
-                Ratings Received: <span className="font-medium">{userProfile.totalRatingsReceived}</span>
-                </p>
-                <p className="text-gray-700">
-                Average Rating: <span className="font-medium">{userProfile.averageRating?.toFixed(2) || 'N/A'}</span>
-                </p>
+            <h3 className="text-xl font-semibold">Statistics</h3>
+            <p className="text-gray-700">Registered: {userProfile.createdAt.toLocaleDateString("de-DE")}</p>
+            <p className="text-gray-700">
+            Critiques Given: <span className="font-medium">{userProfile.totalCritiquesGiven}</span>
+            </p>
+            <p className="text-gray-700">
+            Ratings Received: <span className="font-medium">{userProfile.totalRatingsReceived}</span>
+            </p>
+            <p className="text-gray-700">
+            Average Rating: <span className="font-medium">{userProfile.averageRating?.toFixed(2) || 'N/A'}</span>
+            </p>
           </div>
         </div>
               <Button onClick={toggleEdit} className="mt-4">
@@ -78,7 +78,7 @@ export default function UserProfileContent({
       </div>
 
       {isEditing && (
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+        <div className="border p-4 rounded mb-6">
           <h3 className="text-xl font-semibold mb-4">Edit Profile</h3>
           <EditUserForm
             initialName={userProfile.name || ''}
@@ -88,14 +88,12 @@ export default function UserProfileContent({
         </div>
       )}
       
-      <div className="bg-white shadow-md rounded-lg p-6">
         <ActivityHistory 
           initialLogs={initialLogs} 
           totalCount={totalCount} 
           userEmail={userProfile.email}
           loadMoreLogs={loadMoreLogsAction}
         />
-      </div>
     </div>
   )
 }
