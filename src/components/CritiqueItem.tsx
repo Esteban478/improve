@@ -28,16 +28,16 @@ const CritiqueItem: React.FC<CritiqueItemProps> = ({
   const canEdit = canEditCritique(currentUserEmail, critique);
 
   return (
-    <div className="border p-4 rounded mb-4">
+    <div className="border p-4 bg-card rounded mb-4">
       <h2 className="text-lg font-semibold mb-2">{critique.title || 'Untitled Critique'}</h2>
       <div className="flex items-center mb-2">
         <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={40} />
         <div className="ml-2">
           <p className="font-semibold">
             {critique.user.name} 
-            <span className="text-sm text-gray-500 ml-2">({critique.user.role || 'User'})</span>
+            <span className="text-sm text-muted-foreground ml-2">({critique.user.role || 'User'})</span>
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted-foreground">
             {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
           </p>
         </div>

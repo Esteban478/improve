@@ -23,7 +23,7 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
   ];
 
   return (
-    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="mx-auto p-6 bg-card shadow-lg rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">{critique.title || 'Critique'}</h1>
         {isTrackOwner && (
@@ -35,12 +35,12 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
         <div className="ml-4">
           <p className="text-lg font-bold">
             {critique.user.name} 
-            <span className="text-sm text-gray-500 ml-2">({critique.user.role || 'User'})</span>
+            <span className="text-sm text-muted-foreground ml-2">({critique.user.role || 'User'})</span>
           </p>                  
-            <p className="text-sm text-gray-600 mb-1">
+            <p className="text-sm text-primary mb-1">
                 &Oslash; Rating: {critique.user.averageRating?.toFixed(2)}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted-foreground">
                 {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
             </p>
           </div>
@@ -56,7 +56,7 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
       
       <div className="mb-8">
         <h3 className="text-xl font-semibold mb-2">Overall Impression</h3>
-        <p className="text-gray-700">{critique.overallImpression}</p>
+        <p className="text-foreground">{critique.overallImpression}</p>
       </div>
 
       <div className="mb-8">
@@ -65,7 +65,7 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
           {objectiveCriteria.map((criterion) => (
             criterion.value !== null && (
               <div key={criterion.label}>
-                <label htmlFor={criterion.label} className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor={criterion.label} className="block text-sm font-medium text-foreground mb-1">
                   {criterion.label}
                 </label>
                 <meter
@@ -86,7 +86,7 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
         {critique.technicalSummary && (
           <div>
             <h4 className="text-lg font-semibold mb-2">Technical Summary</h4>
-            <p className="text-gray-700">{critique.technicalSummary}</p>
+            <p className="text-foreground">{critique.technicalSummary}</p>
           </div>
         )}
       </div>
@@ -96,25 +96,25 @@ const CritiqueDetails: React.FC<CritiqueDetailsProps> = ({ critique, isTrackOwne
         {critique.emotionalResponse && (
           <div className="mb-4">
             <h4 className="text-lg font-semibold mb-2">Emotional Response</h4>
-            <p className="text-gray-700">{critique.emotionalResponse}</p>
+            <p className="text-foreground">{critique.emotionalResponse}</p>
           </div>
         )}
         {critique.imagery && (
           <div className="mb-4">
             <h4 className="text-lg font-semibold mb-2">Imagery</h4>
-            <p className="text-gray-700">{critique.imagery}</p>
+            <p className="text-foreground">{critique.imagery}</p>
           </div>
         )}
         {critique.standoutElements && (
           <div className="mb-4">
             <h4 className="text-lg font-semibold mb-2">Standout Elements</h4>
-            <p className="text-gray-700">{critique.standoutElements}</p>
+            <p className="text-foreground">{critique.standoutElements}</p>
           </div>
         )}
         {critique.genreFit && (
           <div className="mb-4">
             <h4 className="text-lg font-semibold mb-2">Genre Fit</h4>
-            <p className="text-gray-700">{critique.genreFit}</p>
+            <p className="text-foreground">{critique.genreFit}</p>
           </div>
         )}
       </div>

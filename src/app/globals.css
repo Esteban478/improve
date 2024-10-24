@@ -13,163 +13,163 @@ body {
 }
 
 @layer base {
-  /* :root {
+
+:root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
+
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
+
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
+
     --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
+
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
+
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
+
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  } */
-  :root {
-    --background: 120 9% 18%;
-    /* rgb(43, 51, 43) - Darkest green as base */
-    --foreground: 122 85% 49%;
-    /* rgb(31, 187, 47) - Bright green for text */
-
-    --card: 120 9% 18%;
-    /* Same as background */
-    --card-foreground: 122 85% 49%;
-    /* Same as foreground */
-
-    --popover: 120 9% 18%;
-    /* Same as background */
-    --popover-foreground: 122 85% 49%;
-    /* Same as foreground */
-
-    --primary: 120 100% 45%;
-    /* rgb(0, 229, 22) - Vibrant green for primary actions */
-    --primary-foreground: 120 9% 18%;
-    /* Dark background for contrast */
-
-    --secondary: 122 50% 38%;
-    /* rgb(48, 145, 58) - Muted green for secondary elements */
-    --secondary-foreground: 120 9% 18%;
-    /* Dark background for contrast */
-
-    --muted: 120 33% 30%;
-    /* rgb(51, 102, 56) - Muted green for subtle elements */
-    --muted-foreground: 120 20% 82%;
-    /* Light gray-green for muted text */
-
-    --accent: 120 20% 20%;
-    /* rgb(40, 60, 42) - Subtle green for accents */
-    --accent-foreground: 122 85% 49%;
-    /* Bright green for accent text */
-
-    --destructive: 0 84% 60%;
-    /* Keeping red for destructive actions */
-    --destructive-foreground: 0 0% 98%;
-    /* Light color for destructive text */
-
-    --border: 120 33% 30%;
-    /* Same as muted for consistency */
-    --input: 120 33% 30%;
-    /* Same as border */
-    --ring: 122 85% 49%;
-    /* Same as foreground for focus rings */
-
-    --chart-1: 122 85% 49%;
-    /* rgb(31, 187, 47) */
-    --chart-2: 122 50% 38%;
-    /* rgb(48, 145, 58) */
-    --chart-3: 120 100% 45%;
-    /* rgb(0, 229, 22) */
-    --chart-4: 120 33% 30%;
-    /* rgb(51, 102, 56) */
-    --chart-5: 120 20% 20%;
-    /* rgb(40, 60, 42) */
+    --ring: 240 5.9% 10%;
 
     --radius: 0.5rem;
   }
-    :root {
-      /* Base colors - using darkest green as near-black background */
-      --background: 120 100% 5%;
-      /* #1a3300 - Darkest shade as base */
-      --foreground: 120 100% 95%;
-      /* Near white for main text */
-  
-      /* Card and Popover - keeping relationship */
-      --card: 120 100% 10%;
-      /* Same as background */
-      --card-foreground: 120 100% 95%;
-      /* Same as foreground */
-      --popover: 120 100% 10%;
-      /* Same as background */
-      --popover-foreground: 120 100% 95%;
-      /* Same as foreground */
-  
-      /* Primary - vibrant green for main actions */
-      --primary: 96 100% 50%;
-      /* #84ff00 - 500 */
-      --primary-foreground: 120 100% 10%;
-      /* Dark background color for contrast */
-  
-      /* Secondary - more muted green */
-      --secondary: 96 100% 40%;
-      /* #6acc00 - 600 */
-      --secondary-foreground: 120 100% 95%;
-      /* Light text */
-  
-      /* Muted - subtle background variations */
-      --muted: 120 100% 20%;
-      /* #356600 - 800 */
-      --muted-foreground: 96 100% 80%;
-      /* #ceff99 - 200 */
-  
-      /* Accent - medium green for highlights */
-      --accent: 96 100% 30%;
-      /* #4f9900 - 700 */
-      --accent-foreground: 96 100% 90%;
-      /* #e6ffcc - 100 */
-  
-      /* Destructive - keeping red for warnings/errors */
-      --destructive: 0 84% 60%;
-      /* Red */
-      --destructive-foreground: 0 0% 98%;
-      /* Light text on destructive */
-  
-      /* Border, Input, Ring */
-      --border: 120 100% 20%;
-      /* #356600 - 800 */
-      --input: 120 100% 20%;
-      /* Same as border */
-      --ring: 96 100% 50%;
-      /* Same as primary */
-  
-      /* Chart colors - using different shades from your scale */
-      --chart-1: 96 100% 50%;
-      /* #84ff00 - 500 */
-      --chart-2: 96 100% 40%;
-      /* #6acc00 - 600 */
-      --chart-3: 96 100% 60%;
-      /* #9dff33 - 400 */
-      --chart-4: 96 100% 70%;
-      /* #b5ff66 - 300 */
-      --chart-5: 96 100% 30%;
-      /* #4f9900 - 700 */
-  
-      --radius: 0.5rem;
-    }
+
+  .forest {
+    /* Base colors - even darker background with slight blue tint */
+    --background: 160 100% 4%;
+    /* Near black with slight green-blue tint */
+    --foreground: 160 30% 95%;
+    /* Slightly desaturated white for better eye comfort */
+
+    /* Card and Popover - slightly elevated from background */
+    --card: 160 90% 8%;
+    --card-foreground: 160 30% 95%;
+    --popover: 160 90% 8%;
+    --popover-foreground: 160 30% 95%;
+
+    /* Primary - vibrant cyan-green for main actions */
+    --primary: 160 100% 45%;
+    /* Bright teal */
+    --primary-foreground: 160 100% 8%;
+
+    /* Secondary - softer teal */
+    --secondary: 160 70% 35%;
+    --secondary-foreground: 160 30% 95%;
+
+    /* Muted - subtle teal variations */
+    --muted: 160 40% 15%;
+    --muted-foreground: 160 30% 75%;
+
+    /* Accent - emerald highlight */
+    --accent: 140 80% 30%;
+    --accent-foreground: 140 30% 90%;
+
+    /* Destructive - keeping red but slightly muted */
+    --destructive: 0 90% 50%;
+    --destructive-foreground: 0 30% 98%;
+
+    /* Border, Input, Ring */
+    --border: 160 40% 15%;
+    --input: 160 40% 15%;
+    --ring: 160 100% 45%;
+
+    /* Chart colors - gradient from teal to green */
+    --chart-1: 160 100% 45%;
+    /* Bright teal */
+    --chart-2: 155 90% 40%;
+    /* Deep cyan */
+    --chart-3: 150 80% 35%;
+    /* Ocean green */
+    --chart-4: 145 70% 40%;
+    /* Forest teal */
+    --chart-5: 140 85% 35%;
+    /* Emerald */
+
+    --radius: 0.5rem;
+  }
+
+  .geek {
+    /* Base colors - using darkest green as near-black background */
+    --background: 120 100% 5%;
+    /* #1a3300 - Darkest shade as base */
+    --foreground: 120 100% 95%;
+    /* Near white for main text */
+
+    /* Card and Popover - keeping relationship */
+    --card: 120 100% 10%;
+    /* Same as background */
+    --card-foreground: 120 100% 95%;
+    /* Same as foreground */
+    --popover: 120 100% 10%;
+    /* Same as background */
+    --popover-foreground: 120 100% 95%;
+    /* Same as foreground */
+
+    /* Primary - vibrant green for main actions */
+    --primary: 96 100% 50%;
+    /* #84ff00 - 500 */
+    --primary-foreground: 120 100% 10%;
+    /* Dark background color for contrast */
+
+    /* Secondary - more muted green */
+    --secondary: 96 100% 40%;
+    /* #6acc00 - 600 */
+    --secondary-foreground: 120 100% 95%;
+    /* Light text */
+
+    /* Muted - subtle background variations */
+    --muted: 120 100% 20%;
+    /* #356600 - 800 */
+    --muted-foreground: 96 100% 80%;
+    /* #ceff99 - 200 */
+
+    /* Accent - medium green for highlights */
+    --accent: 96 100% 30%;
+    /* #4f9900 - 700 */
+    --accent-foreground: 96 100% 90%;
+    /* #e6ffcc - 100 */
+
+    /* Destructive - keeping red for warnings/errors */
+    --destructive: 0 84% 60%;
+    /* Red */
+    --destructive-foreground: 0 0% 98%;
+    /* Light text on destructive */
+
+    /* Border, Input, Ring */
+    --border: 120 100% 20%;
+    /* #356600 - 800 */
+    --input: 120 100% 20%;
+    /* Same as border */
+    --ring: 96 100% 50%;
+    /* Same as primary */
+
+    /* Chart colors - using different shades from your scale */
+    --chart-1: 96 100% 50%;
+    /* #84ff00 - 500 */
+    --chart-2: 96 100% 40%;
+    /* #6acc00 - 600 */
+    --chart-3: 96 100% 60%;
+    /* #9dff33 - 400 */
+    --chart-4: 96 100% 70%;
+    /* #b5ff66 - 300 */
+    --chart-5: 96 100% 30%;
+    /* #4f9900 - 700 */
+
+    --radius: 0.5rem;
+  }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -195,6 +195,75 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+
+  .girly {
+    /* Base colors - light pink background with darker text */
+    --background: 327 82% 97%;
+    /* myColor-50 */
+    --foreground: 327 49% 12%;
+    /* myColor-900 */
+
+    /* Card and Popover - slightly darker pink than background */
+    --card: 327 82% 93%;
+    /* myColor-100 */
+    --card-foreground: 327 49% 12%;
+    /* myColor-900 */
+    --popover: 327 82% 93%;
+    /* myColor-100 */
+    --popover-foreground: 327 49% 12%;
+    /* myColor-900 */
+
+    /* Primary - medium vibrant pink for main actions */
+    --primary: 327 80% 61%;
+    /* myColor-400 */
+    --primary-foreground: 327 82% 97%;
+    /* myColor-50 */
+
+    /* Secondary - softer pink */
+    --secondary: 327 51% 73%;
+    /* myColor-300 */
+    --secondary-foreground: 327 49% 12%;
+    /* myColor-900 */
+
+    /* Muted - subtle pink variations */
+    --muted: 327 82% 93%;
+    /* myColor-100 */
+    --muted-foreground: 327 49% 29%;
+    /* myColor-800 */
+
+    /* Accent - deeper pink highlight */
+    --accent: 327 50% 48%;
+    /* myColor-600 */
+    --accent-foreground: 327 82% 97%;
+    /* myColor-50 */
+
+    /* Destructive - keeping red but making it fit the theme */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 327 82% 97%;
+    /* myColor-50 */
+
+    /* Border, Input, Ring */
+    --border: 327 51% 73%;
+    /* myColor-300 */
+    --input: 327 51% 73%;
+    /* myColor-300 */
+    --ring: 327 80% 61%;
+    /* myColor-400 */
+
+    /* Chart colors - gradient from light to dark pink */
+    --chart-1: 327 80% 61%;
+    /* myColor-400 */
+    --chart-2: 327 50% 48%;
+    /* myColor-600 */
+    --chart-3: 327 51% 73%;
+    /* myColor-300 */
+    --chart-4: 327 67% 36%;
+    /* myColor-700 */
+    --chart-5: 327 49% 29%;
+    /* myColor-800 */
+
+    --radius: 0.5rem;
   }
 }
 

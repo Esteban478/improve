@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 interface DashboardCritiqueItemProps {
   id: string
@@ -10,28 +12,39 @@ interface DashboardCritiqueItemProps {
   isTrackOwner: boolean
 }
 
-const DashboardCritiqueItem: React.FC<DashboardCritiqueItemProps> = ({ 
+const DashboardCritiqueItem = ({ 
   id, 
   title, 
   trackSlug, 
   createdAt, 
-    rating
-}) => {
+  rating
+}: DashboardCritiqueItemProps) => {
   return (
-    <div className="flex justify-between p-4 border rounded bg-card mb-4">
-      <div className="flex flex-col justify-between">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-xs text-gray-500">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
-      </div>
-      <div className="flex flex-col self-start items-end space-y-2">
-        <Link href={`/critique/${trackSlug}/${id}`} className="text-sm text-accent-foreground hover:underline">
-          View Critique
+    <Card className="mb-4 rounded">
+      <CardHeader className="p-4 pb-2">
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription className="text-xs">
+              {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            </CardDescription>
+          </div>
+          {rating !== null && (
+            <span className="text-xs text-primary px-2 py-1 bg-primary/10 rounded">
+              Rating: {rating}/5
+            </span>
+          )}
+        </div>
+      </CardHeader>
+      
+      <CardFooter className="flex p-4 pt-2 gap-2">
+        <Link href={`/critique/${trackSlug}/${id}`}>
+          <Button variant="secondary" size="sm">
+            View Critique
+          </Button>
         </Link>
-              {rating !== null &&(
-                  <span className="text-xs font-medium">Rating: {rating}/5</span>
-            )}
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   )
 }
 

@@ -51,14 +51,14 @@ export default function UserAccount() {
         {/* {session.user?.email && <CoinDisplay email={session.user.email} />} */}
       </button>
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-gray-200 rounded-md shadow-lg py-1">
-          <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300" onClick={handleLinkClick}>
+        <div className="absolute right-0 mt-2 w-48 bg-muted rounded-md shadow-lg py-1">
+          <Link href="/profile" className="block px-4 py-2 text-sm text-foreground hover:bg-secondary" onClick={handleLinkClick}>
             Profile
           </Link>
-          <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300" onClick={handleLinkClick}>
+          <Link href="/dashboard" className="block px-4 py-2 text-sm text-foreground hover:bg-secondary" onClick={handleLinkClick}>
             Dashboard
           </Link>
-          <Link href="/submit-track" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300" onClick={handleLinkClick}>
+          <Link href="/submit-track" className="block px-4 py-2 text-sm text-foreground hover:bg-secondary" onClick={handleLinkClick}>
             Submit Track
           </Link>
           <button 
@@ -66,7 +66,7 @@ export default function UserAccount() {
               signOut()
               handleLinkClick()
             }}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
+            className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-secondary"
           >
             Logout
           </button>

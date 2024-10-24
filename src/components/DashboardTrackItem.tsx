@@ -1,5 +1,4 @@
-'use client'
-
+"use client"
 import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
@@ -7,6 +6,7 @@ import { requestFeedback } from "@/actions/track-actions"
 import { catchErrorTyped } from "@/lib/utils"
 import ErrorDisplay from "@/components/ErrorDisplay"
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 
 interface DashboardTrackItemProps {
   id: string
@@ -18,9 +18,9 @@ interface DashboardTrackItemProps {
   requestedAt: Date | null
 }
 
-const DashboardTrackItem: React.FC<DashboardTrackItemProps> = ({
+const DashboardTrackItem = ({
   id, title, slug, requested, userEmail, createdAt, requestedAt
-}) => {
+}: DashboardTrackItemProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isRequested, setIsRequested] = useState(requested);
 
@@ -37,25 +37,37 @@ const DashboardTrackItem: React.FC<DashboardTrackItemProps> = ({
   }
 
   return (
-    <div className="flex justify-between bg-card p-4 border rounded mb-4">
-      <div className="flex flex-col justify-between">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-xs text-gray-500">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
-      </div>
-      <div className="flex flex-col self-start items-end space-y-2">
-        <Link href={`/tracks/${slug}`} className="text-sm text-accent-foreground hover:underline">
-          View Track
+    <Card className="mb-4 rounded">
+      <CardHeader className="p-4 pb-2">
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription className="text-xs">
+              {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            </CardDescription>
+          </div>
+          {isRequested && requestedAt && (
+            <span className="text-xs text-primary px-2 py-1 bg-primary/10 rounded">
+              Feedback requested {formatDistanceToNow(new Date(requestedAt), { addSuffix: true })}
+            </span>
+          )}
+        </div>
+      </CardHeader>
+      
+      <CardFooter className="flex p-4 pt-2 gap-2">
+        <Link href={`/tracks/${slug}`}>
+          <Button variant="secondary" size="sm">
+            View Track
+          </Button>
         </Link>
-        {!isRequested ? (
+        {!isRequested && (
           <Button onClick={handleRequestFeedback} variant="outline" size="sm">
             Request Feedback
           </Button>
-        ) : isRequested && requestedAt && (
-          <p className="text-xs text-green-500">Feedback requested {formatDistanceToNow(new Date(requestedAt), { addSuffix: true })}</p>
         )}
-      </div>
-      {error && <ErrorDisplay message={error} />}
-    </div>
+        {error && <ErrorDisplay message={error} />}
+      </CardFooter>
+    </Card>
   )
 }
 

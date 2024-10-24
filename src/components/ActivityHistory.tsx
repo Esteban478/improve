@@ -37,8 +37,8 @@ export default function ActivityHistory({ initialLogs, totalCount, userEmail, lo
           {logs.map((log) => (
             <li key={log.id} className="border-b pb-2">
               <p className="font-semibold">{log.action}</p>
-              <p className="text-sm text-gray-600">{log.details}</p>
-              <p className="text-xs text-gray-500">{new Date(log.createdAt).toLocaleString()}</p>
+              <p className="text-sm text-secondary-foreground">{log.details}</p>
+              <p className="text-xs text-muted-foreground">{new Date(log.createdAt).toLocaleString()}</p>
             </li>
           ))}
         </ul>

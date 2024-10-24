@@ -43,7 +43,7 @@ export default async function TrackPage({ params }: { params: { slug: string } }
             trackSlug={params.slug}
           />
         ) : (
-            <div className="border p-4 rounded mb-4">
+            <div className="border bg-card p-4 rounded mb-4">
               <h3 className="text-lg font-semibold">No critiques yet</h3>
               <p>Be the first to critique this track!</p>
             </div>

@@ -60,12 +60,12 @@ const TrackDisplay: React.FC<TrackDisplayProps> = ({
       <div className="mt-4 space-x-2">
         {isListingPage && (
           <Link href={`/tracks/${track.slug}`} passHref>
-            <Button variant="default">View Track</Button>
+            <Button variant="outline">View Track</Button>
           </Link>
         )}
         {isCritiquePage && (
           <Link href={`/tracks/${track.slug}`} passHref>
-            <Button variant="default">Back to Track</Button>
+            <Button variant="outline">Back to Track</Button>
           </Link>
         )}
         {!isCritiquePage && renderCritiqueButton()}

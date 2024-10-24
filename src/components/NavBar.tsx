@@ -1,6 +1,7 @@
 import Link from "next/link";
 import UserAccount from "./UserAccount";
 import Image from "next/image";
+import { ThemeSelect } from "./ThemeSelect";
 
 export default function Navbar() {
   return (
@@ -10,7 +11,7 @@ export default function Navbar() {
           {/* Logo and brand name */}
           <Link 
             href="/" 
-            className="text-3xl flex items-center gap-2 font-bold text-foreground hover:text-primary transition-colors"
+            className="text-3xl flex items-center gap-2 font-bold text-foreground hover:text-muted-foreground transition-colors"
           >
             <Image
               src="/improve.png"
@@ -33,6 +34,9 @@ export default function Navbar() {
           </Link>
         </div>
 
+        {/* Theme select section */}
+        <ThemeSelect />
+        
         {/* User account section */}
         <UserAccount />
       </div>
