@@ -33,7 +33,6 @@ export default async function TracksPage({ searchParams }: { searchParams: { sea
                 track={track}
                 isListingPage={true} 
                 isCritiquePage={false}
-                showFeedbackRequest={false}
                 isTrackOwner={track.user.email === session?.user?.email}
                 currentUserEmail={session?.user?.email || null}
               />
@@ -57,7 +56,6 @@ export default async function TracksPage({ searchParams }: { searchParams: { sea
                 track={track} 
                 isListingPage={true} 
                 isCritiquePage={false}
-                showFeedbackRequest={true}
                 isTrackOwner={track.user.email === session?.user?.email}
                 currentUserEmail={session?.user?.email || null}
               />

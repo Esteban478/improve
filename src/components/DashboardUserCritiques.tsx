@@ -2,6 +2,8 @@ import { catchErrorTyped } from "@/lib/utils"
 import DashboardCritiqueItem from "./DashboardCritiqueItem"
 import ErrorDisplay from "./ErrorDisplay"
 import { getUserGivenCritiques, getUserReceivedCritiques } from "../actions/user-actions"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 export default async function UserCritiques({ email }: { email: string }) {
   const [givenError, givenCritiques] = await catchErrorTyped(getUserGivenCritiques(email))
@@ -29,8 +31,15 @@ export default async function UserCritiques({ email }: { email: string }) {
                 isTrackOwner={false}
               />
             ))
-          ) : (
-            <p className="text-primary">You haven&apos;t given any critiques yet.</p>
+                  ) : (
+                          <>
+                        <p className="text-primary mb-2">You haven&apos;t given any critiques yet.</p>
+                            <Button variant="secondary" size="sm">
+                                <Link href="/">
+                                Browse Tracks    
+                                </Link>
+                            </Button>
+                        </>
           )}
         </div>
         <div>

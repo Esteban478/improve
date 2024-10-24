@@ -21,13 +21,12 @@ export default async function TrackPage({ params }: { params: { slug: string } }
   const isTrackOwner = session?.user?.email === track.user.email;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-2">
       <Suspense fallback={<div>Loading track...</div>}>
         <TrackDisplay
           track={track}
           isListingPage={false}
           isCritiquePage={false}
-          showFeedbackRequest={true}
           isTrackOwner={isTrackOwner}
           currentUserEmail={session?.user?.email || null}
         />

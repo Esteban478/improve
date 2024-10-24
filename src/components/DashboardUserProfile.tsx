@@ -1,7 +1,6 @@
 import Link from "next/link"
-import UserAvatar from "./UserAvatar"
 import { Button } from "./ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import ErrorDisplay from "./ErrorDisplay"
 import { catchErrorTyped } from "@/lib/utils"
 import { getUserProfile } from "../actions/user-actions"

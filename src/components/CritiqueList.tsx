@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import CritiqueItem from './CritiqueItem';
 import { ExtendedCritique } from '../types/index';
 

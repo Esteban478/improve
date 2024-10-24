@@ -31,7 +31,6 @@ export default async function EditCritiquePage({ params }: { params: { slug: str
         track={track} 
         isListingPage={false} 
         isCritiquePage={true} 
-        showFeedbackRequest={false} 
         isTrackOwner={track.user.email === session.user.email}
         currentUserEmail={session.user.email}
       />

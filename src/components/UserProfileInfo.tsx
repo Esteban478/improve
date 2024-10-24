@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardFooter, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { UserProfile } from "@/types/index"
 

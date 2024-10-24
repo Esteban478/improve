@@ -1,5 +1,11 @@
 import { Critique, Track } from '@prisma/client'
 
+export interface RateLimitConfig {
+  actionName: string
+  windowMs: number
+  maxAttempts: number
+}
+
 export interface MinimalUser {
   id: string;
   name: string | null;

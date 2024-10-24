@@ -1,55 +1,69 @@
-import { PenIcon, EyeIcon } from 'lucide-react';
-import UserAvatar from './UserAvatar';
-import { Button } from './ui/button';
-import { ExtendedCritique } from '@/types/index';
-import Link from 'next/link';
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
-import { canEditCritique } from '@/lib/critique-utils';
-import RatingPopover from './RatingPopover';
+import { PenIcon, EyeIcon } from 'lucide-react'
+import { Button } from './ui/button'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
+import { UserInfoDisplay } from "./UserInfoDisplay"
+import { ExtendedCritique } from '@/types/index'
+import Link from 'next/link'
+import { canEditCritique } from '@/lib/critique-utils'
+import RatingPopover from './RatingPopover'
 
 interface CritiqueItemProps {
-  critique: ExtendedCritique;
-  isTrackOwner: boolean;
-  currentUserEmail: string | null;
-  trackSlug: string;
+  critique: ExtendedCritique
+  isTrackOwner: boolean
+  currentUserEmail: string | null
+  trackSlug: string
 }
 
-const CritiqueItem: React.FC<CritiqueItemProps> = ({ 
+const CritiqueItem = ({ 
   critique, 
   isTrackOwner, 
   currentUserEmail,
   trackSlug
-}) => {
+}: CritiqueItemProps) => {
+  const canEdit = canEditCritique(currentUserEmail, critique)
+  
   const truncate = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) return text;
-    return text.substr(0, maxLength - 3) + '...';
-  };
-
-  const canEdit = canEditCritique(currentUserEmail, critique);
+    if (text.length <= maxLength) return text
+    return text.substr(0, maxLength - 3) + '...'
+  }
 
   return (
-    <div className="border p-4 bg-card rounded mb-4">
-      <h2 className="text-lg font-semibold mb-2">{critique.title || 'Untitled Critique'}</h2>
-      <div className="flex items-center mb-2">
-        <UserAvatar src={critique.user.image} alt={critique.user.name || ''} size={40} />
-        <div className="ml-2">
-          <p className="font-semibold">
-            {critique.user.name} 
-            <span className="text-sm text-muted-foreground ml-2">({critique.user.role || 'User'})</span>
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {formatDistanceToNow(new Date(critique.createdAt), { addSuffix: true })}
-          </p>
+    <Card className="mb-4 rounded">
+      <CardHeader className="p-4 pb-2">
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle className="text-xl text-foreground mb-2">
+              {critique.title || 'Untitled Critique'}
+            </CardTitle>
+            <UserInfoDisplay 
+              user={critique.user}
+              timestamp={critique.createdAt}
+              size={40}
+              showRole={true}
+            />
+          </div>
+          {critique.rating !== null && (
+            <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
+              Rating: {critique.rating}/5
+            </span>
+          )}
         </div>
-      </div>
-      <p className="mb-2">{truncate(critique.overallImpression, 200)}</p>
-      <div className="flex items-center space-x-2 mt-2">
+      </CardHeader>
+
+      <CardContent className="p-4 pt-2">
+        <p>{truncate(critique.overallImpression, 200)}</p>
+      </CardContent>
+
+      <CardFooter className="p-4 pt-2 flex items-center gap-2">
         {isTrackOwner && (
-          <RatingPopover critiqueId={critique.id} existingRating={critique.rating} />
+          <RatingPopover 
+            critiqueId={critique.id} 
+            existingRating={critique.rating} 
+          />
         )}
         
         {canEdit && (
-          <Link href={`/critique/${trackSlug}/${critique.id}/edit`} passHref>
+          <Link href={`/critique/${trackSlug}/${critique.id}/edit`}>
             <Button variant="outline" size="sm">
               <PenIcon className="mr-2" size={16} />
               Edit
@@ -57,15 +71,15 @@ const CritiqueItem: React.FC<CritiqueItemProps> = ({
           </Link>
         )}
         
-        <Link href={`/critique/${trackSlug}/${critique.id}`} passHref>
-          <Button variant="outline" size="sm">
+        <Link href={`/critique/${trackSlug}/${critique.id}`}>
+          <Button variant="secondary" size="sm">
             <EyeIcon className="mr-2" size={16} />
             View Full Critique
           </Button>
         </Link>
-      </div>
-    </div>
-  );
-};
+      </CardFooter>
+    </Card>
+  )
+}
 
-export default CritiqueItem;
+export default CritiqueItem

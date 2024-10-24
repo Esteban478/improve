@@ -2,6 +2,8 @@ import { catchErrorTyped } from "@/lib/utils"
 import DashboardTrackItem from "./DashboardTrackItem"
 import ErrorDisplay from "./ErrorDisplay"
 import { getUserTracks } from "../actions/user-actions"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 export default async function UserTracks({ email }: { email: string }) {
   const [error, tracks] = await catchErrorTyped(getUserTracks(email))
@@ -28,8 +30,15 @@ export default async function UserTracks({ email }: { email: string }) {
             />
           ))}
         </div>
-      ) : (
-        <p className="text-primary">You haven&apos;t submitted any tracks yet.</p>
+          ) : (
+                <>
+                <p className="text-primary mb-2">You haven&apos;t submitted any tracks yet.</p>
+                <Button variant="secondary" size="sm">
+                    <Link href="/submit-track">
+                    Submit Track    
+                    </Link>
+                </Button>
+                </>
       )}
     </div>
   )

@@ -21,7 +21,6 @@ export default async function SingleCritiquePage({ params }: { params: { slug: s
   if (!track || !critique) return notFound();
 
   const isTrackOwner = session?.user?.email === track.user.email;
-  const isCritiqueAuthor = session?.user?.email === critique.user.email;
 
   return (
     <>
@@ -30,7 +29,6 @@ export default async function SingleCritiquePage({ params }: { params: { slug: s
           track={track}
           isListingPage={false}
           isCritiquePage={true}
-          showFeedbackRequest={false}
           isTrackOwner={isTrackOwner}
           currentUserEmail={session?.user?.email || null}
         />
@@ -38,7 +36,6 @@ export default async function SingleCritiquePage({ params }: { params: { slug: s
       <Suspense fallback={<div>Loading critique...</div>}>
         <CritiqueDetails 
           critique={{ ...critique, track }} 
-          isAuthor={isCritiqueAuthor}
           isTrackOwner={isTrackOwner}
           currentUserEmail={session?.user?.email || null}
         />

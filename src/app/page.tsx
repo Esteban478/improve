@@ -9,9 +9,9 @@ export default async function Home() {
   const tracks = await getTracksNeedingFeedback(5)  // Get 5 tracks needing feedback
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-4 py-2">
       <IntroductionDisplay />
-      <h2 className="text-2xl font-bold mb-6">Tracks Needing Feedback</h2>
+      <h2 className="text-2xl font-bold mb-2">Tracks Needing Feedback</h2>
       {tracks.length > 0 ? (
         <div className="space-y-8">
           {tracks.map((track) => (
@@ -20,7 +20,6 @@ export default async function Home() {
               track={track} 
               isListingPage={true} 
               isCritiquePage={false} 
-              showFeedbackRequest={false}
               isTrackOwner={track.user.email === session?.user?.email}
               currentUserEmail={session?.user?.email || null}
             />

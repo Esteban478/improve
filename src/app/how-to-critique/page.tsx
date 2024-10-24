@@ -2,11 +2,11 @@ import { Card, CardContent, CardTitle } from "@/src/components/ui/card";
 
 export default function HowToCritiquePage() {
   return (
-    <Card className="container mx-auto px-4 py-8">
+    <Card className="container mx-auto px-6 py-8">
       <CardTitle>
         <h1 className="text-2xl font-bold mb-6">How to give constructive critique</h1>
       </CardTitle>
-      <CardContent>
+      <CardContent className="px-4">
         <section id="why-feedback-matters" className="mb-8">
           <h2 className="text-xl font-semibold mb-2">Why Feedback Matters</h2>
           <p className="mb-6">
