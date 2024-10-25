@@ -18,7 +18,8 @@ export async function updateCoins(
   userEmail: string, 
   amount: number, 
   type: 'EARN' | 'SPEND', 
-  reason: string
+  reason: string,
+  bypassAuthCheck: boolean = false // New parameter for special cases
 ) {
   // Session validation
   const session = await getServerSession()
@@ -26,9 +27,8 @@ export async function updateCoins(
     throw new AuthorizationError('Not authenticated')
   }
 
-  // Authorization check - only allow users to update their own coins
-  // or admins to update anyone's coins (you might want to add admin role check)
-  if (session.user.email !== userEmail) {
+  // Authorization check - bypass for special cases like rating rewards
+  if (!bypassAuthCheck && session.user.email !== userEmail) {
     throw new AuthorizationError('Not authorized to update coins for this user')
   }
 

@@ -68,7 +68,13 @@ export async function submitRating(formData: FormData) {
 
   // If rating is 4 or 5, award an additional coin
   if (rating >= 4) {
-    await updateCoins(critique.user.email!, 1, 'EARN', 'Received high rating on critique');
+    await updateCoins(
+      critique.user.email!, 
+      1, 
+      'EARN', 
+      'Received high rating on critique',
+      true // Bypass auth check for rating rewards
+    );
   }
 
   revalidatePath(`/tracks/${critique.track.slug}`);
