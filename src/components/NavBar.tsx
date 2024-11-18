@@ -24,14 +24,6 @@ export default function Navbar() {
               Improve
             </span>
           </Link>
-          
-          {/* Navigation link */}
-          <Link 
-            href="/colors" 
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Colors
-          </Link>
         </div>
 
         {/* Theme select section */}

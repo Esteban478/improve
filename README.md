@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Improve - Music Feedback Platform
+
+## Overview
+
+Improve is a dynamic web platform designed to help music producers get meaningful feedback on their tracks. Built with Next.js 14 and modern web technologies, it facilitates constructive critique exchange between producers, fostering a collaborative environment for musical growth and improvement.
+
+## Core Features
+
+- **Track Submission**: Share SoundCloud tracks for feedback
+- **Structured Critique System**:
+  - Objective criteria (mixing, mastering, sound design)
+  - Subjective feedback (emotional response, imagery)
+  - Technical evaluation
+- **Reward Mechanism**: Earn coins for giving quality feedback
+- **Rating System**: Track owners can rate received critiques
+- **User Profiles**: Track statistics and activity history
+- **Theme System**: Multiple color themes including Dark, Forest, Geek, and Girly
+
+## Technology Stack
+
+- **Framework**: Next.js 14 with App Router
+- **Language**: TypeScript
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **State Management**: Server Components + React Hooks
+- **Deployment**: Vercel
+
+## Architecture & Patterns
+
+### Server Components
+
+- Default server component approach for optimal performance
+- Strategic use of client components for interactive features
+- Proper component tree organization to minimize client-side JavaScript
+
+### Data Flow
+
+- Server Actions for data mutations
+- Optimistic updates for better UX
+- Proper cache invalidation using `revalidatePath`
+
+### Type Safety
+
+- Comprehensive TypeScript implementation
+- Zod for runtime validation
+- Custom type definitions for complex data structures
+
+## Project Structure
+
+```
+src/
+├── actions/         # Server actions for data mutations
+├── app/            # Next.js app router pages
+├── components/     # Reusable React components
+│   ├── ui/        # shadcn/ui components
+│   └── ...        # Custom components
+├── lib/           # Utility functions and constants
+├── types/         # TypeScript type definitions
+└── ...
+```
+
+## Database Schema
+
+Key entities:
+
+- Users
+- Tracks
+- Critiques
+- CoinTransactions
+- ActivityLogs
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- PostgreSQL
+- npm or yarn
+
+### Environment Variables
+
+```env
+DATABASE_URL=
+NEXTAUTH_URL=
+NEXTAUTH_SECRET=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/improve.git
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Install dependencies
+npm install
 
-## Learn More
+# Setup database
+npx prisma migrate dev
+npx prisma db seed
 
-To learn more about Next.js, take a look at the following resources:
+# Start development server
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Visit `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development Practices
 
-## Deploy on Vercel
+### Component Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Separation of server and client components
+- Reusable UI components
+- Component composition for complex features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### State Management
+
+- Server-side state with Next.js cache
+- Client-side state with React hooks
+- Form state management with controlled components
+
+### Error Handling
+
+- Custom error types
+- Consistent error boundaries
+- User-friendly error messages
+
+## Testing Strategy (Planned)
+
+- Unit tests for utility functions
+- Component tests with React Testing Library
+- E2E tests with Playwright
+- Integration tests for critical flows
+
+## Deployment
+
+The application is configured for deployment on Vercel with automatic CI/CD pipeline.
+
+## Future Considerations
+
+- Enhanced analytics for critique quality and user engagement
+- Real-time notifications for new critiques and ratings
+- Advanced search and filtering capabilities
