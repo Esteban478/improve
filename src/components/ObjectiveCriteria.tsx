@@ -1,6 +1,6 @@
-import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Slider } from './ui/slider';
+import { Label } from './ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import CharacterCounterInput from './CharacterCounterInput';
 
 interface ObjectiveCriteriaProps {
